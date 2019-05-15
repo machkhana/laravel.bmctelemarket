@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Clients;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+    protected $clients;
+
+    public function __construct()
+    {
+        $this->clients = new Clients();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +31,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        return view('clients.create');
+        $clients = $this->clients->all();
+        return view('clients.create')->with('clients',$clients);
     }
 
     /**

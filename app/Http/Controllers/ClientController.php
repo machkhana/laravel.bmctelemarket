@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Client;
+use App\Http\Requests\ClientRequest;
 use App\Model\Clients;
 use Illuminate\Http\Request;
 
@@ -31,8 +33,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        $clients = $this->clients->all();
-        return view('clients.create')->with('clients',$clients);
+        //$clients = $this->clients->all();
+        return view('clients.create')->with('clients',$this->clients->all());
     }
 
     /**
@@ -41,10 +43,15 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        //
-    }
+        try{
+            $createClient = $request->toArray();
+            $this->clients->create($createClient);
+        }catch (\Exception $e){
+
+        }
+}
 
     /**
      * Display the specified resource.

@@ -1,19 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\Client;
+use App\Model\City;
+use App\Model\Client;
 use App\Http\Requests\ClientRequest;
-use App\Model\Clients;
+use App\User;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
     protected $clients;
+    protected $cities;
+    protected $users;
 
     public function __construct()
     {
-        $this->clients = new Clients();
+        $this->clients = new Client();
+        $this->cities = new City();
     }
 
     /**
@@ -23,7 +26,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return view('clients.index');
+        $clients = $this->clients->all();
+        return view('clients.index')->with('clients',$clients);
     }
 
     /**
@@ -33,8 +37,9 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //$clients = $this->clients->all();
-        return view('clients.create')->with('clients',$this->clients->all());
+        $cities = $this->cities->all();
+        //dd($cities);
+        return view('clients.create')->with('cities',$cities);
     }
 
     /**
@@ -59,7 +64,7 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         //
     }

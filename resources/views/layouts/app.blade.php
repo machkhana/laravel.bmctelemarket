@@ -9,15 +9,13 @@
 
     <title>{{ config('app.name', 'BMCtelemarket') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
     <!-- Styles -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -73,5 +71,20 @@
             @yield('content')
         </main>
     </div>
+    {{--Scripts--}}
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/locales/bootstrap-datetimepicker.ka.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#datetimepicker').datetimepicker({
+                language: 'ka',
+                format: 'yyyy-mm-dd'
+            });
+        });
+    </script>
 </body>
 </html>
+

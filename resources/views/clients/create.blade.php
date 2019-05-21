@@ -4,50 +4,83 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">მთავარი გვერდი</div>
+                    <div class="card-header">კონტრაგენტის დამატება</div>
                     <div class="card-body">
-                        <form action="{{route('clients.store')}}"method="post">
+                        <form action="{{route('clients.store')}}" autocomplete="off" method="post">
                             {{ @csrf_field() }}
                             {{ @method_field('POST') }}
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">სახელი</label>
-                                <input type="text" name="firstname" class="form-control" >
+                            <div class=" row form-group">
+                                <div class="col-sm-6">
+                                    <label for="exampleInputEmail1">სახელი</label>
+                                    <input type="text" name="firstname" class="form-control" >
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">გვარი</label>
+                                    <input type="text" name="lastname" class="form-control" >
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">გვარი</label>
-                                <input type="text" name="lastname" class="form-control" >
+                            <div class="row form-group">
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">ტელეფონი</label>
+                                    <input type="text" name="mobile" class="form-control" >
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">ელ-ფოსტა</label>
+                                    <input type="email" name="email" class="form-control">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">ტელეფონი</label>
-                                <input type="text" name="mobile" class="form-control" >
+                            <div class="row form-group">
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">პირ. ნომერი</label>
+                                    <input type="text" name="idnumber" class="form-control">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">დაბ. თარიღი</label>
+
+                                    <input type='text' id="datetimepicker" name="birhday" class="form-control"/>
+
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">ელ-ფოსტა</label>
-                                <input type="text" name="email" class="form-control" placeholder="Password">
+                            <div class="row form-group">
+                                <div class="col-sm-4">
+                                    <label for="exampleInputPassword1">ქალაქი</label>
+                                    <select name="city_id" class="form-control">
+                                        <option value="0">.....</option>
+                                        @foreach($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-8">
+                                    <label for="exampleInputPassword1">მისამართი</label>
+                                    <input type="text" name="address" class="form-control" >
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">პირ. ნომერი</label>
-                                <input type="text" name="idnumber" class="form-control" placeholder="Password">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">დაბ. თარიღი</label>
-                                <input type="text" name="birthday" class="form-control" >
-                            </div>
+
                             <div class="form-group">
                                 <label for="exampleInputPassword1">საბანკო ა/ნ</label>
                                 <input type="text" name="banknumber" class="form-control" >
                             </div>
+
                             <div class="form-group">
-                                <label for="exampleInputPassword1">ქალაქი</label>
-                                <select name="city_id" class="form-control">
-                                    @foreach($clients->city as $city)
-                                        <option value="">{{$city->name}}</option>
-                                    @endforeach
-                                </select>
+                                <label for="exampleInputPassword1">ინტერესები (ჰობი)</label>
+                                <input type="text" multiple name="address" class="form-control" >
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">მისამართი</label>
-                                <input type="text" name="address" class="form-control" >
+                                <label for="exampleInputPassword1">სამუშაო ადგილი</label>
+                                <input type="text" multiple name="address" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">ოჯახური მდგომარეობა (დაოჯახებული ხართ)</label>
+                                <input type="text" multiple name="address" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">სამუშაო ადგილი</label>
+                                <input type="text" multiple name="address" class="form-control" >
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">სამუშაო ადგილი</label>
+                                <input type="text" multiple name="address" class="form-control" >
                             </div>
                             <button type="submit" class="btn btn-primary">დამატება</button>
                         </form>
@@ -56,5 +89,8 @@
             </div>
         </div>
     </div>
+
+
 @endsection
+
 

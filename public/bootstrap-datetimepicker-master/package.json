@@ -1,35 +1,51 @@
 {
-  "name": "bootstrap-datetime-picker",
-  "homepage": "http://www.malot.fr/bootstrap-datetimepicker/",
-  "description": "Both Date and Time picker widget based on twitter bootstrap",
-  "version": "2.4.4",
-  "license": "Apache 2.0",
   "author": {
-    "name": "Sebastien Malot"
-  },
-  "maintainers": [{
-      "name": "Sebastien Malot"
-    },{
-      "name": "Christian Vaas",
-      "email": "christianvaas@auspex.eu"
-    }
-  ],
-  "keywords": [
-    "bootstrap", "datetime", "picker"
-  ],
-  "repository": {
-    "type": "git",
-    "url":  "git://github.com/smalot/bootstrap-datetimepicker.git"
+    "name": "Jonathan Peterson"
   },
   "bugs": {
-    "url":  "https://github.com/smalot/bootstrap-datetimepicker"
+    "url": "https://github.com/eonasdan/bootstrap-datetimepicker/issues"
   },
-  "main": "./js/bootstrap-datetimepicker.js",
+  "peerDependencies": {
+    "bootstrap": "^3.3",
+    "jquery": "^1.8.3 || ^2.0 || ^3.0",
+    "moment": "^2.10",
+    "moment-timezone": "^0.4.0 || ^0.5.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3",
+    "jquery": "^1.8.3 || ^2.0 || ^3.0",
+    "moment": "^2.10",
+    "moment-timezone": "^0.4.0"
+  },
+  "description": "A date/time picker component designed to work with Bootstrap 3 and Momentjs. For usage, installation and demos see Project Site on GitHub",
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-contrib-jshint": "^1.0.0",
-    "grunt-version-check": "^0.3.7",
-    "jshint": "^2.9.4",
-    "load-grunt-tasks": "^3.4.1"
-  }
+    "grunt": "latest",
+    "grunt-contrib-connect": "^1.0.1",
+    "grunt-contrib-jasmine": "^1.0.3",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-env": "^0.4.4",
+    "grunt-jscs": "latest",
+    "grunt-nuget": "^0.1.5",
+    "grunt-string-replace": "latest",
+    "load-grunt-tasks": "latest"
+  },
+  "homepage": "http://eonasdan.github.io/bootstrap-datetimepicker/",
+  "keywords": [
+    "twitter-bootstrap",
+    "bootstrap",
+    "datepicker",
+    "datetimepicker",
+    "timepicker",
+    "moment"
+  ],
+  "license": "MIT",
+  "main": "src/js/bootstrap-datetimepicker.js",
+  "name": "eonasdan-bootstrap-datetimepicker",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eonasdan/bootstrap-datetimepicker.git"
+  },
+  "version": "4.17.47"
 }

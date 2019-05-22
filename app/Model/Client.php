@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Client extends Model
 {
@@ -19,5 +20,9 @@ class Client extends Model
 
     public function cities(){
         $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function hasintereses(){
+        return DB::table('hasinteres')->where('client_id',$this->id);
     }
 }

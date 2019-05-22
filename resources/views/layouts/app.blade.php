@@ -12,11 +12,13 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.css') }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
+    <link href="{{ asset('bootstrap-chosen-master/bootstrap-chosen.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker-standalone.css') }}" />
+
 </head>
 <body>
     <div id="app">
@@ -28,7 +30,6 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
@@ -71,18 +72,22 @@
             @yield('content')
         </main>
     </div>
-    {{--Scripts--}}
-
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{asset('js/moment.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/locales/bootstrap-datetimepicker.ka.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{asset('js/locale/ka.js')}}"></script>
+    <script src="{{asset('bootstrap-chosen-master/chosen.jquery.js')}}"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('#datetimepicker').datetimepicker({
-                language: 'ka',
-                format: 'yyyy-mm-dd'
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'DD-MM-YYYY',
+                locale: 'ka'
             });
+        });
+        $(function() {
+            $('.chosen-select').chosen();
+            $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
         });
     </script>
 </body>

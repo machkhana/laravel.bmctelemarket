@@ -36,9 +36,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">დაბ. თარიღი</label>
-
-                                    <input type='text' id="datetimepicker" name="birhday" class="form-control"/>
-
+                                    <input type='text' id="datetimepicker1" name="birhday" class="form-control"/>
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -63,8 +61,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="exampleInputPassword1">ინტერესები (ჰობი)</label>
-                                <input type="text" multiple name="address" class="form-control" >
+                                <label>ინტერესები (ჰობი)</label>
+                                <select class="form-control chosen-select" multiple tabindex="4" name="intereses[]">
+                                    <option value=""></option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    <option value="Afghanistan">Afghanistan</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">სამუშაო ადგილი</label>
@@ -72,11 +75,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">ოჯახური მდგომარეობა (დაოჯახებული ხართ)</label>
-                                <input type="text" multiple name="address" class="form-control" >
+                                <input type="radio" value="yes"  name="family_status" class="form-control" >
+                                <input type="radio" value="no"  name="family_status" class="form-control" >
+
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">სამუშაო ადგილი</label>
-                                <input type="text" multiple name="address" class="form-control" >
+                                <input type="text"  name="address" class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">სამუშაო ადგილი</label>

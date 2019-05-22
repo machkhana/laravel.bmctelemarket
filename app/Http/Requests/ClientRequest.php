@@ -37,7 +37,7 @@ class ClientRequest extends FormRequest
                     'birthday' => 'required|date|clients,birthday',
                     'city_id' => 'required|int|clients,city_id',
                     'address' => 'required|text|clients,address',
-                    'interes' => 'text|clients,interes',
+                    'intereses.*' => 'text|clients,intereses',
                     'work_place' => 'text|clients,work_place',
                     'family_status' => 'required|int|clients,family_status',
                     'card_id' => 'required|int|clients,card_id',

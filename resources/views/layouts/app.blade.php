@@ -84,10 +84,28 @@
                 format: 'DD-MM-YYYY',
                 locale: 'ka'
             });
+            $('#datetimepicker2').datetimepicker({
+                format: 'DD-MM-YYYY',
+                locale: 'ka'
+            });
+            $('#datetimepicker3').datetimepicker({
+                format: 'DD-MM-YYYY',
+                locale: 'ka'
+            });
         });
         $(function() {
             $('.chosen-select').chosen();
             $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
+        });
+        $(function () {
+            $('.family-show').css('display','none');
+            $('input[type="radio"]').change(function() {
+                if($(this).val() == 'yes'){
+                    $('.family-show').css('display','');
+                }else{
+                    $('.family-show').css('display','none');
+                }
+            });
         });
     </script>
 </body>

@@ -9,7 +9,4 @@ class Interes extends Model
     protected $table="intereses";
     protected $fillable=['name'];
 
-    public function hasinteres(){
-
-    }
 }

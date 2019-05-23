@@ -41,7 +41,7 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-4">
-                                    <label for="exampleInputPassword1">ქალაქი</label>
+                                    <label for="">ქალაქი</label>
                                     <select name="city_id" class="form-control">
                                         <option value="0">.....</option>
                                         @foreach($cities as $city)
@@ -54,19 +54,18 @@
                                     <input type="text" name="address" class="form-control" >
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label for="exampleInputPassword1">საბანკო ა/ნ</label>
+                                <label for="">საბანკო ა/ნ</label>
                                 <input type="text" name="banknumber" class="form-control" >
                             </div>
-
                             <div class="form-group">
                                 <label>ინტერესები (ჰობი)</label>
-                                <select class="form-control chosen-select" multiple tabindex="4" name="intereses[]">
-                                    <option value=""></option>
-                                    <option value="United States">United States</option>
-                                    <option value="United Kingdom">United Kingdom</option>
-                                    <option value="Afghanistan">Afghanistan</option>
+                                <select class="form-control chosen-select" multiple tabindex="4" name="interes[]">
+                                    @forelse($intereses as $interes)
+                                        <option value="{{$interes->id}}">{{$interes->name}}</option>
+                                    @empty
+                                        <option value="0">{{__('არ არის ჩანაწერი')}}</option>
+                                    @endforelse
                                 </select>
                             </div>
                             <div class="form-group">
@@ -75,18 +74,51 @@
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">ოჯახური მდგომარეობა (დაოჯახებული ხართ)</label>
-                                <input type="radio" value="yes"  name="family_status" class="form-control" >
-                                <input type="radio" value="no"  name="family_status" class="form-control" >
+                                <div class="form-group form-check">
+                                    <input type="radio" value="yes"  name="family_status" class="form-check-input" >
+                                    <label class="form-check-label" for="exampleCheck1">კი</label>
+                                </div>
+                                <div class="form-group form-check">
+                                    <input type="radio" value="no"  name="family_status" class="form-check-input" >
+                                    <label class="form-check-label" for="exampleCheck1">არა</label>
+                                </div>
+                                <div class="family-show border p-2 ">
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">მეუღლე (სახელი, გვარი, პირადი #, დაბ. თარიღი)</label>
+                                        <input type="text" multiple name="wife"  class="form-control" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">შვილების (სახელი, გვარი, დაბ. თარიღი)</label>
+                                        <input type="text" multiple name="childrens" class="form-control" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">ხელოსნის ბარათი</label>
+                                    <textarea name="card_id" class="form-control"></textarea>
 
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="exampleInputPassword1">პოზიცია</label>
+                                    <select name="position_id" class="form-control">
+                                        <option value="0">......</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">სამუშაო ადგილი</label>
-                                <input type="text"  name="address" class="form-control" >
+
+                            <div class="form-group d-flex">
+                                <label for="">ხელშეკრულების ვადები</label>
+                                <div class="d-flex">
+                                    <div class="col-sm-6">
+                                        <input type='text' id="datetimepicker2" placeholder="დაწყება" name="agremeent_start" class="form-control"/>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type='text' id="datetimepicker3" placeholder="დამთავრება" name="agremeent_end" class="form-control"/>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">სამუშაო ადგილი</label>
-                                <input type="text" multiple name="address" class="form-control" >
-                            </div>
+                            <button type="reset" class="btn btn-warning">გასუფთავება</button>
                             <button type="submit" class="btn btn-primary">დამატება</button>
                         </form>
                     </div>
@@ -94,8 +126,5 @@
             </div>
         </div>
     </div>
-
-
 @endsection
-
 

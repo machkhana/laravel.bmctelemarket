@@ -4,19 +4,24 @@ namespace App\Http\Controllers;
 use App\Model\City;
 use App\Model\Client;
 use App\Http\Requests\ClientRequest;
+use App\Model\Interes;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ClientController extends Controller
 {
     protected $clients;
     protected $cities;
     protected $users;
+    protected $intereses;
 
     public function __construct()
     {
         $this->clients = new Client();
         $this->cities = new City();
+        $this->intereses = new Interes();
+//        $this->intereses = DB::table('intereses')->select('id','name')->get();
     }
 
     /**
@@ -27,7 +32,9 @@ class ClientController extends Controller
     public function index()
     {
         $clients = $this->clients->all();
-        return view('clients.index')->with('clients',$clients);
+
+        return view('clients.index')
+            ->with('clients',$clients);
     }
 
     /**
@@ -38,8 +45,11 @@ class ClientController extends Controller
     public function create()
     {
         $cities = $this->cities->all();
+        $intereses = $this->intereses->all();
         //dd($cities);
-        return view('clients.create')->with('cities',$cities);
+        return view('clients.create')
+            ->with('intereses',$intereses)
+            ->with('cities',$cities);
     }
 
     /**
@@ -53,6 +63,7 @@ class ClientController extends Controller
         try{
             $createClient = $request->toArray();
             $this->clients->create($createClient);
+            return redirect()->route('clients.index');
         }catch (\Exception $e){
 
         }

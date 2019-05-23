@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('idnumber', 150 );
             $table->string('banknumber')->nullable();
             $table->date('birthday');
-            $table->unsignedInteger('city_id');
+            $table->unsignedInteger('city_id')->nullable();
             $table->text('address');
             $table->text('interes');
             $table->text('work_place');
@@ -33,6 +33,8 @@ class CreateClientsTable extends Migration
             $table->date('agremeent_start');
             $table->date('agremeent_end');
             $table->timestamps();
+
+
         });
     }
 

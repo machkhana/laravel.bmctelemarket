@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHasinteresesTable extends Migration
+class CreateClienthasfamilyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateHasinteresesTable extends Migration
      */
     public function up()
     {
-        Schema::create('hasintereses', function (Blueprint $table) {
-            $table->unsignedBigInteger('interes_id');
-            $table->unsignedBigInteger('client_id');
+        Schema::create('clienthasfamily', function (Blueprint $table) {
+            $table->unsignedBigInteger('client_id')->primary();
+            $table->text('wife');
+            $table->text('childrens');
+            $table->timestamps();
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
@@ -27,6 +29,6 @@ class CreateHasinteresesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hasintereses');
+        Schema::dropIfExists('clienthasfamily');
     }
 }

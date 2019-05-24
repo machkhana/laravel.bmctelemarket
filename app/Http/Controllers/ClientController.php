@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\FamilyRequest;
 use App\Model\City;
 use App\Model\Client;
 use App\Http\Requests\ClientRequest;
@@ -8,6 +9,7 @@ use App\Model\Interes;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation;
 
 class ClientController extends Controller
 {
@@ -32,7 +34,6 @@ class ClientController extends Controller
     public function index()
     {
         $clients = $this->clients->all();
-
         return view('clients.index')
             ->with('clients',$clients);
     }
@@ -46,9 +47,10 @@ class ClientController extends Controller
     {
         $cities = $this->cities->all();
         $intereses = $this->intereses->all();
-        //dd($cities);
+        $positions = DB::table('positions')->get();
         return view('clients.create')
             ->with('intereses',$intereses)
+            ->with('positions',$positions)
             ->with('cities',$cities);
     }
 
@@ -60,13 +62,15 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        try{
-            $createClient = $request->toArray();
-            $this->clients->create($createClient);
-            return redirect()->route('clients.index');
-        }catch (\Exception $e){
-
-        }
+        dd($request);
+//        try{
+//            $createClient = $request->toArray();
+//            $this->clients->create($createClient);
+//            dd($createClient);
+//            return redirect()->route('clients.index');
+//        }catch (\Exception $e){
+//            return redirect()->route('clients.create')->with('ar daemata');
+//        }
 }
 
     /**

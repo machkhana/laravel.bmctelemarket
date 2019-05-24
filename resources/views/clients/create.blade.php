@@ -7,36 +7,36 @@
                     <div class="card-header">კონტრაგენტის დამატება</div>
                     <div class="card-body">
                         <form action="{{route('clients.store')}}" autocomplete="off" method="post">
-                            {{ @csrf_field() }}
-                            {{ @method_field('POST') }}
+                            {{ csrf_field() }}
+                            <input type="hidden" name="user_id" value="{{Auth::User()->id}}" >
                             <div class=" row form-group">
                                 <div class="col-sm-6">
                                     <label for="exampleInputEmail1">სახელი</label>
-                                    <input type="text" name="firstname" class="form-control" >
+                                    <input type="text" name="firstname" class="form-control" value="{{old('firstname')}}">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">გვარი</label>
-                                    <input type="text" name="lastname" class="form-control" >
+                                    <input type="text" name="lastname" class="form-control" value="{{old('lastname')}}" >
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">ტელეფონი</label>
-                                    <input type="text" name="mobile" class="form-control" >
+                                    <input type="text" name="mobile" class="form-control" value="{{old('mobile')}}">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">ელ-ფოსტა</label>
-                                    <input type="email" name="email" class="form-control">
+                                    <input type="email" name="email" class="form-control" value="{{old('email')}}">
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">პირ. ნომერი</label>
-                                    <input type="text" name="idnumber" class="form-control">
+                                    <input type="text" name="idnumber" class="form-control" value="{{old('idnumber')}}">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">დაბ. თარიღი</label>
-                                    <input type='text' id="datetimepicker1" name="birhday" class="form-control"/>
+                                    <input type='text' id="datetimepicker1" name="birthday" class="form-control" value="{{old('birthday')}}"/>
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -51,26 +51,27 @@
                                 </div>
                                 <div class="col-sm-8">
                                     <label for="exampleInputPassword1">მისამართი</label>
-                                    <input type="text" name="address" class="form-control" >
+                                    <input type="text" name="address" class="form-control" value="{{old('address')}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">საბანკო ა/ნ</label>
-                                <input type="text" name="banknumber" class="form-control" >
+                                <input type="text" name="banknumber" class="form-control" value="{{old('banknumber')}}">
                             </div>
                             <div class="form-group">
                                 <label>ინტერესები (ჰობი)</label>
-                                <select class="form-control chosen-select" multiple tabindex="4" name="interes[]">
-                                    @forelse($intereses as $interes)
-                                        <option value="{{$interes->id}}">{{$interes->name}}</option>
-                                    @empty
-                                        <option value="0">{{__('არ არის ჩანაწერი')}}</option>
-                                    @endforelse
-                                </select>
+                                <input type="text" name="interes" class="form-control" value="{{old('interes')}}">
+                                {{--<select class="form-control chosen-select" multiple tabindex="4" name="interes[]">--}}
+                                    {{--@forelse($intereses as $interes)--}}
+                                        {{--<option value="{{$interes->id}}">{{$interes->name}}</option>--}}
+                                    {{--@empty--}}
+                                        {{--<option value="0">{{__('არ არის ჩანაწერი')}}</option>--}}
+                                    {{--@endforelse--}}
+                                {{--</select>--}}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">სამუშაო ადგილი</label>
-                                <input type="text" multiple name="address" class="form-control" >
+                                <input type="text" multiple name="work_place" class="form-control" value="{{old('work_place')}}">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">ოჯახური მდგომარეობა (დაოჯახებული ხართ)</label>
@@ -103,6 +104,9 @@
                                     <label for="exampleInputPassword1">პოზიცია</label>
                                     <select name="position_id" class="form-control">
                                         <option value="0">......</option>
+                                        @foreach($positions as $position)
+                                            <option value="{{$position->id}}">{{$position->pos_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

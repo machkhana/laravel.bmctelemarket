@@ -5,6 +5,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">კონტრაგენტების ჩამონათვალი</div>
+                    @include('partials._messages')
                     <div class="card-body">
                         <table class="table table-hover">
                             <thead>

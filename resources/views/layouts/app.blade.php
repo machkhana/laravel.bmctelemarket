@@ -81,15 +81,15 @@
     <script type="text/javascript">
         $(function () {
             $('#datetimepicker1').datetimepicker({
-                format: 'DD-MM-YYYY',
+                format: 'YYYY-MM-DD',
                 locale: 'ka'
             });
             $('#datetimepicker2').datetimepicker({
-                format: 'DD-MM-YYYY',
+                format: 'YYYY-MM-DD',
                 locale: 'ka'
             });
             $('#datetimepicker3').datetimepicker({
-                format: 'DD-MM-YYYY',
+                format: 'YYYY-MM-DD',
                 locale: 'ka'
             });
         });

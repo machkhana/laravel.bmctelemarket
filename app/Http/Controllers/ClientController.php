@@ -9,7 +9,7 @@ use App\Model\Interes;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -62,16 +62,24 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        dd($request);
-//        try{
-//            $createClient = $request->toArray();
-//            $this->clients->create($createClient);
-//            dd($createClient);
-//            return redirect()->route('clients.index');
-//        }catch (\Exception $e){
-//            return redirect()->route('clients.create')->with('ar daemata');
-//        }
-}
+        try{
+            $request['user_id'] = auth()->user()->id;
+            $this->clients->create($request->toArray());
+            if($request->family_status == 'yes'){
+                DB::table('clienthasfamily')
+                    ->insert(
+                        array(
+                            'client_id'=>auth()->user()->id,
+                            'wife'=>$request->wife,
+                            'childrens'=>$request->childrens
+                        )
+                    );
+            }
+            return redirect()->route('clients.index')->with('success', __('დაემატა წამრატებით'));
+        }catch (\Exception $e){
+            return redirect()->route('clients.create')->with('error', __('დამატება ვერ მოხერხდა'));
+        }
+    }
 
     /**
      * Display the specified resource.

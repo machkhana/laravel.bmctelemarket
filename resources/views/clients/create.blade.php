@@ -6,9 +6,9 @@
                 <div class="card">
                     <div class="card-header">კონტრაგენტის დამატება</div>
                     <div class="card-body">
+                        @include('partials._messages')
                         <form action="{{route('clients.store')}}" autocomplete="off" method="post">
                             {{ csrf_field() }}
-                            <input type="hidden" name="user_id" value="{{Auth::User()->id}}" >
                             <div class=" row form-group">
                                 <div class="col-sm-6">
                                     <label for="exampleInputEmail1">სახელი</label>
@@ -61,13 +61,6 @@
                             <div class="form-group">
                                 <label>ინტერესები (ჰობი)</label>
                                 <input type="text" name="interes" class="form-control" value="{{old('interes')}}">
-                                {{--<select class="form-control chosen-select" multiple tabindex="4" name="interes[]">--}}
-                                    {{--@forelse($intereses as $interes)--}}
-                                        {{--<option value="{{$interes->id}}">{{$interes->name}}</option>--}}
-                                    {{--@empty--}}
-                                        {{--<option value="0">{{__('არ არის ჩანაწერი')}}</option>--}}
-                                    {{--@endforelse--}}
-                                {{--</select>--}}
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">სამუშაო ადგილი</label>

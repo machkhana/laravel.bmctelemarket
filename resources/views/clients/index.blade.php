@@ -27,7 +27,7 @@
                                     <td>{{$client->firstname}}</td>
                                     <td>{{$client->lastname}}</td>
                                     <td>{{$client->mobile}}</td>
-                                    <td>{{$client->position_id}}</td>
+                                    <td>{{$client->position->pos_name }}</td>
                                     <td>{{$client->lastname}}</td>
                                     <td>{{$client->lastname}}</td>
                                     <td>

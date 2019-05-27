@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Model;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -9,6 +8,7 @@ class Client extends Model
 {
     protected $table='clients';
     protected $fillable=[
+        'id',
         'user_id',
         'firstname',
         'lastname',
@@ -28,11 +28,19 @@ class Client extends Model
         'agremeent_end'];
 
     public function users(){
-        $this->belongsTo(User::class, 'user_id','id');
+        return $this->belongsTo(User::class, 'user_id','id');
     }
 
-    public function cities(){
-        $this->belongsTo(City::class, 'city_id', 'id');
+    public function city(){
+        return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+
+    public function position(){
+        return $this->belongsTo(Position::class,'position_id','id');
+    }
+
+    public function clienthasfamily(){
+        return $this->belongsTo(ClientHasFamily::class, 'id', 'client_id');
     }
 
     public function hasintereses(){

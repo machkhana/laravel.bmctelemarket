@@ -10,6 +10,6 @@ class City extends Model
     protected $table='cities';
 
     public function clients(){
-        return $this->hasMany(Client::class, 'id', 'city_id');
+        return $this->belongsTo(Client::class, 'id', 'city_id');
     }
 }

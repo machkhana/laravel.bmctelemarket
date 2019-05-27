@@ -78,36 +78,8 @@
     <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/locale/ka.js')}}"></script>
     <script src="{{asset('bootstrap-chosen-master/chosen.jquery.js')}}"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker1').datetimepicker({
-                format: 'YYYY-MM-DD',
-                locale: 'ka'
-            });
-            $('#datetimepicker2').datetimepicker({
-                format: 'YYYY-MM-DD',
-                locale: 'ka'
-            });
-            $('#datetimepicker3').datetimepicker({
-                format: 'YYYY-MM-DD',
-                locale: 'ka'
-            });
-        });
-        $(function() {
-            $('.chosen-select').chosen();
-            $('.chosen-select-deselect').chosen({ allow_single_deselect: true });
-        });
-        $(function () {
-            $('.family-show').css('display','none');
-            $('input[type="radio"]').change(function() {
-                if($(this).val() == 'yes'){
-                    $('.family-show').css('display','');
-                }else{
-                    $('.family-show').css('display','none');
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/myscripts.js') }}"></script>
+
 </body>
 </html>
 

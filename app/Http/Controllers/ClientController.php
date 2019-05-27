@@ -1,15 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Requests\FamilyRequest;
 use App\Model\City;
 use App\Model\Client;
 use App\Http\Requests\ClientRequest;
+use App\Model\ClientHasFamily;
 use App\Model\Interes;
-use App\User;
+use App\Model\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -17,13 +16,16 @@ class ClientController extends Controller
     protected $cities;
     protected $users;
     protected $intereses;
+    protected $positions;
+    protected $clienthasfamily;
 
     public function __construct()
     {
         $this->clients = new Client();
         $this->cities = new City();
         $this->intereses = new Interes();
-//        $this->intereses = DB::table('intereses')->select('id','name')->get();
+        $this->positions = new Position();
+        $this->clienthasfamily = new ClientHasFamily();
     }
 
     /**
@@ -63,6 +65,7 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         try{
+            $searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
             $request['user_id'] = auth()->user()->id;
             $this->clients->create($request->toArray());
             if($request->family_status == 'yes'){
@@ -98,9 +101,16 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(int $id)
     {
-        //
+
+        $client = $this->clients->find($id);
+        $cities = $this->cities->all();
+        $positions = $this->positions->all();
+        return view('clients.edit')
+            ->with('positions',$positions)
+            ->with('cities',$cities)
+            ->with('client',$client);
     }
 
     /**
@@ -110,9 +120,24 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClientRequest $request, int $id)
     {
-        //
+        $selectclient = $this->clients->find($id);
+        dd($selectclient);
+        $this->clients->setModel($selectclient);
+        try{
+            $clientrequest = $request->toArray();
+            $this->clients->update($clientrequest);
+//            როდესაც წამოვა ბრძანება რომ არ ყავს ოჯახი
+            if($request->family_status == "no"){
+                $clienthasfamily = $this->clienthasfamily->where('client_id',$id);
+                $clienthasfamily->delete();
+            }
+            return redirect()->route('clients.edit',$id)->with('success',__('დარედაქტირდა წარმატებით'));
+        }catch (\Exception $e){
+            dd($e);
+            return redirect()->route('clients.edit',$id)->with('error',__('რედაქტირება ვერ მოხერხდა: '.$e->getMessage()));
+        }
     }
 
     /**

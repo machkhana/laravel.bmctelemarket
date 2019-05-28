@@ -34,7 +34,7 @@ class ClientRequest extends FormRequest
                     'mobile' => 'required|string',
                     'email' => 'required|string',
                     'idnumber' => 'required|string',
-                    'banknumber' => 'string',
+                    'banknumber' => '',
                     'birthday' => 'required',
                     'city_id' => 'required|int|exists:cities,id',
                     'address' => 'required|string',

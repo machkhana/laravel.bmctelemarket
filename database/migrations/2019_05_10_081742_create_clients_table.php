@@ -21,7 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('mobile');
             $table->string('email');
             $table->string('idnumber' );
-            $table->string('banknumber');
+            $table->string('banknumber')->nullable();
             $table->date('birthday');
             $table->unsignedBigInteger('city_id');
             $table->text('address');
@@ -33,8 +33,8 @@ class CreateClientsTable extends Migration
             $table->date('agremeent_start');
             $table->date('agremeent_end');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
+//            $table->foreign('user_id')->references('id')->on('users');
+            //$table->foreign('id')->references('client_id')->on('clienthasfamily')->onDelete('cascade');
             $table->foreign('city_id')->references('id')->on('cities');
         });
     }

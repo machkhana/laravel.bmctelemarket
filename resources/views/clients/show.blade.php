@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -15,7 +15,10 @@
                     </div>
                     <div class="card-body">
                         @include('partials._messages')
-
+                        <div class="row">
+                            <div class="col-sm-6">{{$client->firstname.' '.$client->lastname}}</div>
+                            <div class="col-sm-6"></div>
+                        </div>
                     </div>
                 </div>
             </div>

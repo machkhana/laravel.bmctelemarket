@@ -18,6 +18,7 @@
     <link href="{{ asset('bootstrap-chosen-master/bootstrap-chosen.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker-standalone.css') }}" />
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">--}}
 
 </head>
 <body>

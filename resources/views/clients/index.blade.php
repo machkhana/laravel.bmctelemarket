@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -33,14 +33,16 @@
                                     <td>{{$client->position->pos_name }}</td>
                                     <td>{{$client->card_id}}</td>
                                     <td>{{$client->created_at}}</td>
-                                    <td class="d-flex">
-                                        <a href="{{route('clients.show',$client)}}"><button class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></button> </a>
-                                        <a href="{{route('clients.edit',$client)}}"><button class="btn btn-warning btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                        <form method="post" action="{{route('clients.destroy',$client)}}">
-                                            {{csrf_field()}}
-                                            {{method_field('DELETE')}}
-                                            <button class="btn btn-sm btn-danger "><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                        </form>
+                                    <td>
+                                        <div class="row">
+                                            <a href="{{route('clients.show',$client)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a href="{{route('clients.edit',$client)}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <form method="post" action="{{route('clients.destroy',$client)}}">
+                                                {{csrf_field()}}
+                                                {{method_field('DELETE')}}
+                                                <button class="btn btn-sm btn-danger "><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

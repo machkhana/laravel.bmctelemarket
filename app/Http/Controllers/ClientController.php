@@ -157,15 +157,16 @@ class ClientController extends Controller
      */
     public function destroy(int $id)
     {
-        DB::transaction();
+
         try{
-            if($this->clients->find($id)->delete()){
-                $this->clienthasfamily->where('client_id',$id)->delete();
-            }
-            DB::commit();
+            $this->clients->find($id)->delete();
+//            if($this->clients->find($id)->delete()){
+//                $this->clienthasfamily->where('client_id',$id)->delete();
+//            }
+
             return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
         }catch (\Exception $e){
-            DB::rollBack();
+
             return redirect()->route('clients.index')->with('error',__('წაშლა ვერ მოხერხდა: '.$e->getMessage()));
         }
 

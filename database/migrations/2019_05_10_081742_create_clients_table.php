@@ -15,7 +15,7 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->bigInteger('user_id');
             $table->string('firstname');
             $table->string('lastname');
             $table->string('mobile');
@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->string('idnumber' );
             $table->string('banknumber')->nullable();
             $table->date('birthday');
-            $table->unsignedBigInteger('city_id');
+            $table->bigInteger('city_id')->unsigned()->index();
             $table->text('address');
             $table->text('interes');
             $table->text('work_place');
@@ -33,9 +33,6 @@ class CreateClientsTable extends Migration
             $table->date('agremeent_start');
             $table->date('agremeent_end');
             $table->timestamps();
-//            $table->foreign('user_id')->references('id')->on('users');
-            //$table->foreign('id')->references('client_id')->on('clienthasfamily')->onDelete('cascade');
-            $table->foreign('city_id')->references('id')->on('cities');
         });
     }
 

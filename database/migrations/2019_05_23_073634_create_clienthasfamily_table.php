@@ -14,11 +14,11 @@ class CreateClienthasfamilyTable extends Migration
     public function up()
     {
         Schema::create('clienthasfamily', function (Blueprint $table) {
-            $table->unsignedBigInteger('client_id')->primary();
+            $table->bigInteger('client_id')->unsigned()->primary();
             $table->text('wife');
             $table->text('childrens');
             $table->timestamps();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            //$table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 

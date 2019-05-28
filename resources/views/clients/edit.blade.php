@@ -4,10 +4,10 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">კონტრაგენტის ცვლილება</div>
+                    <div class="card-header">კონტრაგენტის ცვლილება<a href="{{route('clients.index')}}" class="btn btn-sm btn-info ml-2">{{__('კონტრაგენტების სია')}}</a> </div>
                     <div class="card-body">
                         @include('partials._messages')
-                        <form action="{{route('clients.update', $client->id)}}" autocomplete="off" method="post">
+                        <form action="{{route('clients.update', $client)}}" autocomplete="off" method="post">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
                             <div class=" row form-group">

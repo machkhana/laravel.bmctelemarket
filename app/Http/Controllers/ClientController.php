@@ -65,14 +65,14 @@ class ClientController extends Controller
     public function store(ClientRequest $request)
     {
         try{
-            $searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
+            //$searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
             $request['user_id'] = auth()->user()->id;
-            $this->clients->create($request->toArray());
+            $clientid = $this->clients->create($request->toArray());
             if($request->family_status == 'yes'){
                 DB::table('clienthasfamily')
                     ->insert(
                         array(
-                            'client_id'=>auth()->user()->id,
+                            'client_id'=>$clientid->id,
                             'wife'=>$request->wife,
                             'childrens'=>$request->childrens
                         )
@@ -80,7 +80,7 @@ class ClientController extends Controller
             }
             return redirect()->route('clients.index')->with('success', __('დაემატა წამრატებით'));
         }catch (\Exception $e){
-            return redirect()->route('clients.create')->with('error', __('დამატება ვერ მოხერხდა'));
+            return redirect()->route('clients.create')->with('error', __('დამატება ვერ მოხერხდა'.$e->getMessage()));
         }
     }
 
@@ -92,7 +92,9 @@ class ClientController extends Controller
      */
     public function show(int $id)
     {
-        //
+        $client = $this->clients->find($id);
+        return view('clients.show')
+            ->with('client',$client);
     }
 
     /**
@@ -103,7 +105,6 @@ class ClientController extends Controller
      */
     public function edit(int $id)
     {
-
         $client = $this->clients->find($id);
         $cities = $this->cities->all();
         $positions = $this->positions->all();
@@ -122,18 +123,26 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, int $id)
     {
-        $selectclient = $this->clients->find($id);
-        dd($selectclient);
-        $this->clients->setModel($selectclient);
+       $item = $this->clients->find($id);
+       $this->clients->setModel($item);
         try{
-            $clientrequest = $request->toArray();
-            $this->clients->update($clientrequest);
-//            როდესაც წამოვა ბრძანება რომ არ ყავს ოჯახი
+            $request['user_id'] = $item->user_id;
+            $this->clients->find($id)->update($request->toArray());
             if($request->family_status == "no"){
                 $clienthasfamily = $this->clienthasfamily->where('client_id',$id);
                 $clienthasfamily->delete();
             }
-            return redirect()->route('clients.edit',$id)->with('success',__('დარედაქტირდა წარმატებით'));
+            if($request->family_status == "yes"){
+                DB::table('clienthasfamily')
+                    ->where('client_id',$id)
+                    ->update(
+                        array(
+                            'wife'=>$request->wife,
+                            'childrens'=>$request->childrens
+                        )
+                    );
+            }
+            return redirect()->route('clients.index')->with('success',__('დარედაქტირდა წარმატებით'));
         }catch (\Exception $e){
             dd($e);
             return redirect()->route('clients.edit',$id)->with('error',__('რედაქტირება ვერ მოხერხდა: '.$e->getMessage()));
@@ -146,8 +155,19 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        DB::transaction();
+        try{
+            if($this->clients->find($id)->delete()){
+                $this->clienthasfamily->where('client_id',$id)->delete();
+            }
+            DB::commit();
+            return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->route('clients.index')->with('error',__('წაშლა ვერ მოხერხდა: '.$e->getMessage()));
+        }
+
     }
 }

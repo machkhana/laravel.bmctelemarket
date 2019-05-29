@@ -7,6 +7,7 @@ use App\Http\Requests\ClientRequest;
 use App\Model\ClientHasFamily;
 use App\Model\Interes;
 use App\Model\Position;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,6 +27,7 @@ class ClientController extends Controller
         $this->intereses = new Interes();
         $this->positions = new Position();
         $this->clienthasfamily = new ClientHasFamily();
+        $this->users = new User();
     }
 
     /**
@@ -157,15 +159,15 @@ class ClientController extends Controller
      */
     public function destroy(int $id)
     {
-        DB::transaction();
+
         try{
-            if($this->clients->find($id)->delete()){
-                $this->clienthasfamily->where('client_id',$id)->delete();
-            }
-            DB::commit();
+            $this->clients->find($id)->delete();
+//            if($this->clients->find($id)->delete()){
+//                $this->clienthasfamily->where('client_id',$id)->delete();
+//            }
             return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
         }catch (\Exception $e){
-            DB::rollBack();
+
             return redirect()->route('clients.index')->with('error',__('წაშლა ვერ მოხერხდა: '.$e->getMessage()));
         }
 

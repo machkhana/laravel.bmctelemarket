@@ -18,7 +18,7 @@ class CreateClienthasfamilyTable extends Migration
             $table->text('wife');
             $table->text('childrens');
             $table->timestamps();
-            //$table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 

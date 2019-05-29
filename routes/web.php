@@ -31,9 +31,11 @@ Route::get('/migrate', function () {
 Route::get('/', function () {
     return redirect('/login');
 });
+Route::get('/printclient/{id}','PDFController@getPdf');
 Auth::routes();
 Route::group(['middleware' => ['auth']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
+
     Route::resource('/clients', 'ClientController');
 });
 

@@ -10,13 +10,13 @@
                             <div class="col-sm-5">ოპერატორი: {{$client->users->name}}</div>
                             <div class="col-sm-2">
                                 <a href="{{route('clients.edit',$client)}}"><button class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> </button></a>
-                                <button onclick="print()" class="btn btn-sm btn-primary"><i class="fa fa-print"></i> </button>
+                                <a href="{{url('printclient',$client)}}" class="btn btn-sm btn-primary"><i class="fa fa-print"></i> </a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         @include('partials._messages')
-                        <div class="row">
+                        <div class="row border-bottom">
                             <div class="col-sm-6"></div>
                             <div class="col-sm-6">რეგისტრაციის თარიღი: {{substr($client->created_at,0,10)}}</div>
                         </div>
@@ -31,13 +31,21 @@
                             <div class="col-sm-12 pb-2"><b>სამუშაო ადგილი: </b>{{$client->work_place}}</div>
                             <div class="col-sm-12 pb-2"><b>პოზიცია: </b>{{$client->position->pos_name}}</div>
                             <div class="col-sm-12 pb-2"><b>ინტერესები: </b>{{$client->interes}}</div>
-                            <div class="col-sm-12 pb-2"><b>დაოჯახებულია: </b>{{($client->family_status == 'yes')?'კი':'არა'}}</div>
+                            <div class="col-sm-12 pb-2"><b>ხელოსნის ბარათის #: </b>{{$client->card_id}}</div>
+                            <div class="col-sm-12 pb-2 border-top"><b>დაოჯახებულია: </b>{{($client->family_status == 'yes')?'კი':'არა'}}</div>
                             @if($client->family_status == 'yes')
                                 <div class="border-info">
                                     <div class="col-sm-12 pb-2 ml-3"><b>მეუღლე: </b>{{$client->clienthasfamily->wife}}</div>
                                     <div class="col-sm-12 pb-2 ml-3"><b>შვილები: </b>{{$client->clienthasfamily->childrens}}</div>
                                 </div>
                             @endif
+                            <div class="container border-top">
+                                <label><b>ხელშეკრულების ვადები:</b></label>
+                                <div class="row">
+                                    <div class="col-sm-6">დასაწყისი: {{$client->agremeent_start}}</div>
+                                    <div class="col-sm-6">დასასრული: {{$client->agremeent_end}}</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

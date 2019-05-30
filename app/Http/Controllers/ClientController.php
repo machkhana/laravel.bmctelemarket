@@ -37,6 +37,7 @@ class ClientController extends Controller
      */
     public function index()
     {
+
         $clients = $this->clients->all();
         return view('clients.index')
             ->with('clients',$clients);

@@ -44,7 +44,7 @@ class ClientController extends Controller
     public function index()
     {
         //return User::permission('create')->get();
-        auth
+
         $clients = $this->clients->all();
         return view('clients.index')
             ->with('clients',$clients);

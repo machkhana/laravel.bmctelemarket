@@ -41,11 +41,11 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //return User::permission('create')->get();
 
-        $clients = $this->clients->all();
+        $clients = $this->clients->paginate(15);
         return view('clients.index')
             ->with('clients',$clients);
     }

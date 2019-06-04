@@ -2,22 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\City;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
 
 class UserController extends Controller
 {
+    use HasRoles;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    protected $users,$cities;
+    public function __construct()
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
+        $this->users = new User();
+        $this->cities = new City();
+    }
 
-        return view('users.index',compact('data'))
 
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+    public function index()
+    {
+        $operators=$this->users->paginate(15);
+        return view('operators.index')
+            ->with('operators',$operators);
     }
 
     /**
@@ -27,7 +37,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $cities=$this->cities->all();
+        return view('operators.create')
+            ->with('cities',$cities);
     }
 
     /**

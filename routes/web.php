@@ -37,7 +37,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/clients', 'ClientController');
-    Route::resource('/operators', 'OperatorController');
+    Route::resource('/operators', 'UserController');
 //    Route::group(['middleware' => ['role:Admin','permission:create|edit|update']],function(){
 //        Route::resource('/clients', 'ClientController');
 //    });

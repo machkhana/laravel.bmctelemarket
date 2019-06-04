@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Operator;
+use App\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
 
-class UserController extends Controller
+class OperatorController extends Controller
 {
+    use HasRoles;
+    protected $operators;
+
+    public function __construct()
+    {
+        $this->operators = new User();
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($request)
+    public function index()
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-
-        return view('users.index',compact('data'))
-
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $operators = $this->operators->all();
+        return view ('operators.index')
+            ->with('operators',$operators);
     }
 
     /**
@@ -44,10 +53,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Model\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Operator $operator)
     {
         //
     }
@@ -55,10 +64,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Model\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Operator $operator)
     {
         //
     }
@@ -67,10 +76,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Model\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Operator $operator)
     {
         //
     }
@@ -78,10 +87,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Model\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Operator $operator)
     {
         //
     }

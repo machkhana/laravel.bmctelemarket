@@ -9,10 +9,16 @@ use App\Model\Interes;
 use App\Model\Position;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class ClientController extends Controller
 {
+    use HasRoles;
+
     protected $clients;
     protected $cities;
     protected $users;
@@ -37,7 +43,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-
+        //return User::permission('create')->get();
+        auth
         $clients = $this->clients->all();
         return view('clients.index')
             ->with('clients',$clients);
@@ -50,6 +57,10 @@ class ClientController extends Controller
      */
     public function create()
     {
+        //Role::create(['name'=>'writer']);
+//        Permission::create(['name'=>'update']);
+//        Permission::create(['name'=>'destroy']);
+        //Auth()->user()->givePermissionTo('edit');
         $cities = $this->cities->all();
         $intereses = $this->intereses->all();
         $positions = DB::table('positions')->get();

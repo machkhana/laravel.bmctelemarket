@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class OperatorController extends Controller
 {
-    use HasRoles;
+    //use HasRoles;
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    protected $users,$cities;
+    protected $users,$cities,$role;
     public function __construct()
     {
         $this->users = new User();
@@ -58,20 +58,23 @@ class OperatorController extends Controller
      */
     public function store(UserRequest $request)
     {
+        DB::beginTransaction();
         try{
             $request['password'] = Hash::make($request->password);
-            $user = $this->users->create($request->toArray());
+            $operator = $this->users->create($request->toArray());
             DB::table('operator_has_cities')
                 ->insert(
                     array(
-                        'user_id'=>$user->id,
+                        'user_id'=>$operator->id,
                         'city_id'=>$request->city_id
                     )
                 );
-            $user->assignRole($request->input('roles'));
-            return redirect()->route('operators.index')->with('error',__('დაემატა წარმატებით'));
+            $operator->assignRole($request->input('roles'));
+            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
+            DB::commit();
         }catch (\Exception $e){
-            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა'.$e->getMessage()));
+            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+            DB::rollBack();
         }
     }
 

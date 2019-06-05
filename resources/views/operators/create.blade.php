@@ -46,9 +46,9 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-4">
-                                    <label for="exampleInputPassword1">პოზიცია</label>
-                                    <select name="roles[]" class="form-control multiple">
-                                        <option value="0">......</option>
+                                    <label for="exampleInputPassword1">როლი</label>
+                                    <select name="roles[]" class="form-control" multiple>
+                                        <option value="0" selected disabled>აირჩიეთ როლები</option>
                                         @foreach($roles as $role)
                                             <option value="{{$role}}">{{$role->name}}</option>
                                         @endforeach

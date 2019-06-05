@@ -28,7 +28,9 @@
                                     <td>{{$operator->name}}</td>
                                     <td>{{$operator->email}}</td>
                                     <td>{{$operator->city}}</td>
-                                    <td></td>
+                                    <td>
+
+                                    </td>
                                     <td>
                                         <div class="row">
                                             <a href="{{route('operators.show',$operator)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a>

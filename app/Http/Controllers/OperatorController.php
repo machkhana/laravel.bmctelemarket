@@ -6,26 +6,33 @@ use App\Model\Operator;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Traits\HasRoles;
+use App\Model\City;
+use App\Model\Role;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class OperatorController extends Controller
 {
     use HasRoles;
-    protected $operators;
-
-    public function __construct()
-    {
-        $this->operators = new User();
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+    protected $users,$cities;
+    public function __construct()
+    {
+        $this->users = new User();
+        $this->cities = new City();
+        $this->role = new Role();
+    }
+
+
     public function index()
     {
-        $operators = $this->operators->all();
-        return view ('operators.index')
+        $operators=$this->users->paginate(15);
+        return view('operators.index')
             ->with('operators',$operators);
     }
 
@@ -36,7 +43,11 @@ class OperatorController extends Controller
      */
     public function create()
     {
-        //
+        $cities=$this->cities->all();
+        $roles=$this->role->all();
+        return view('operators.create')
+            ->with('roles',$roles)
+            ->with('cities',$cities);
     }
 
     /**
@@ -45,18 +56,32 @@ class OperatorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        try{
+            $request['password'] = Hash::make($request->password);
+            $user = $this->users->create($request->toArray());
+            DB::table('operator_has_cities')
+                ->insert(
+                    array(
+                        'user_id'=>$user->id,
+                        'city_id'=>$request->city_id
+                    )
+                );
+            $user->assignRole($request->input('roles'));
+            return redirect()->route('operators.index')->with('error',__('დაემატა წარმატებით'));
+        }catch (\Exception $e){
+            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა'.$e->getMessage()));
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Operator  $operator
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Operator $operator)
+    public function show($id)
     {
         //
     }
@@ -64,10 +89,10 @@ class OperatorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Operator  $operator
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Operator $operator)
+    public function edit($id)
     {
         //
     }
@@ -76,10 +101,10 @@ class OperatorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Operator  $operator
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Operator $operator)
+    public function update(UserRequest $request, $id)
     {
         //
     }
@@ -87,11 +112,17 @@ class OperatorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Operator  $operator
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Operator $operator)
+    public function destroy(int $id)
     {
-        //
+        try{
+            $this->users->find($id)->delete();
+            return redirect()->route('operators.index')->with('success',__('წაიშალა წარმატებით'));
+        }catch (\Exception $e){
+            return redirect()->route('operators.index')->with('success',__('წაშლა ვერ მოხერხდა'.$e->getMessage()));
+        }
+
     }
 }

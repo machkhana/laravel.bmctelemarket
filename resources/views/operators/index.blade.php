@@ -29,7 +29,7 @@
                                     <td>{{$operator->email}}</td>
                                     <td>{{$operator->city}}</td>
                                     <td>
-                                        {{$operator->getRoleNames()}}
+                                        {!! $operator->getRoleNames() !!}
                                     </td>
                                     <td>
                                         <div class="row">

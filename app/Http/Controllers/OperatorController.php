@@ -36,9 +36,9 @@ class OperatorController extends Controller
     public function index()
     {
         $operators=$this->users->paginate(15);
-        $roles = $operators->getRoleNames();
+        //$roles = $operators->getRoleNames();
         return view('operators.index')
-            ->with('roles',$roles)
+            //->with('roles',$roles)
             ->with('operators',$operators);
     }
 

@@ -40,7 +40,11 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
-
+//$app->routeMiddleware([
+//    'auth'       => App\Http\Middleware\Authenticate::class,
+//    'permission' => Spatie\Permission\Middlewares\PermissionMiddleware::class,
+//    'role'       => Spatie\Permission\Middlewares\RoleMiddleware::class,
+//]);
 /*
 |--------------------------------------------------------------------------
 | Return The Application

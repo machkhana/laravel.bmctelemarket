@@ -14,22 +14,22 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">სახელი/გვარი</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">როლი</th>
+                                <th scope="col">დაშვება</th>
                                 <th scope="col">რეგიონი</th>
                                 <th scope="col">როლი</th>
                                 <th scope="col"><i class="fa fa-cogs" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($operators as $operator)
+                            @foreach($roles as $role)
                                 <tr>
                                     <th scope="row">{{$operator->id}}</th>
                                     <td>{{$operator->name}}</td>
                                     <td>{{$operator->email}}</td>
                                     <td>{{$operator->city}}</td>
                                     <td>
-                                        {{$operator->getRoleNames()}}
+
                                     </td>
                                     <td>
                                         <div class="row">

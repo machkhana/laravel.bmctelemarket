@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Model\Role;
 class RoleController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:role-list');
-        $this->middleware('permission:role-create', ['only' => ['create','store']]);
-        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+//        $this->middleware('permission:role-list');
+//        $this->middleware('permission:role-create', ['only' => ['create','store']]);
+//        $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+//        $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
     public function index(Request $request)
     {
@@ -43,10 +43,14 @@ class RoleController extends Controller
             'name' => 'required|unique:roles,name',
             'permission' => 'required',
         ]);
-        $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
-        return redirect()->route('roles.index')
-            ->with('success','Role created successfully');
+        try{
+            $role = Role::create(['name' => $request->input('name')]);
+            $role->syncPermissions($request->input('permission'));
+            return redirect()->route('roles.index')->with('success',__('დაემატა წარმატებით'));
+        }catch (\Exception $e){
+            return redirect()->route('roles.index')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+        }
+
     }
 
     /**

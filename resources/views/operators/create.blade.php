@@ -50,7 +50,7 @@
                                     <select name="roles[]" class="form-control" multiple>
                                         <option value="0" selected disabled>აირჩიეთ როლები</option>
                                         @foreach($roles as $role)
-                                            <option value="{{$role}}">{{$role->name}}</option>
+                                            <option value="{{$role->name}}">{{$role->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

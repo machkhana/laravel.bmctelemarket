@@ -7,19 +7,23 @@ use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Traits\HasRoles;
 use App\Model\City;
-use App\Model\Role;
+//use App\Model\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class OperatorController extends Controller
 {
-    //use HasRoles;
+    use HasRoles;
+    protected $guard_name = 'web';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     protected $users,$cities,$role;
     public function __construct()
     {
@@ -32,7 +36,9 @@ class OperatorController extends Controller
     public function index()
     {
         $operators=$this->users->paginate(15);
+        $roles = $operators->getRoleNames();
         return view('operators.index')
+            ->with('roles',$roles)
             ->with('operators',$operators);
     }
 
@@ -69,14 +75,16 @@ class OperatorController extends Controller
                         'city_id'=>$request->city_id
                     )
                 );
-            $operator->assignRole($request->input('roles'));
-            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
+            $operator->assignRole($request->roles);
             DB::commit();
+            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){
-            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
             DB::rollBack();
+            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+
         }
     }
+
 
     /**
      * Display the specified resource.

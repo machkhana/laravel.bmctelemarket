@@ -44,7 +44,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         //return User::permission('create')->get();
-
+        Permission::create(['name'=>'print']);
         $clients = $this->clients->paginate(15);
         return view('clients.index')
             ->with('clients',$clients);

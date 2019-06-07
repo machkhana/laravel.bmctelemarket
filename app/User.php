@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\City;
 use App\Model\Client;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,6 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable, HasRoles;
 
+    protected $guard_name = 'web';
     /**
      * The attributes that are mass assignable.
      *
@@ -40,5 +42,8 @@ class User extends Authenticatable
 
     public function clients(){
         return $this->hasMany(Client::class,'id','user_id');
+    }
+    public function cities(){
+        return $this->belongsTo(City::class, 'id','user_id');
     }
 }

@@ -78,6 +78,7 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
+        DB::beginTransaction();
         try{
             //$searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
             $request['user_id'] = auth()->user()->id;
@@ -92,8 +93,10 @@ class ClientController extends Controller
                         )
                     );
             }
+            DB::commit();
             return redirect()->route('clients.index')->with('success', __('დაემატა წამრატებით'));
         }catch (\Exception $e){
+            DB::rollBack();
             return redirect()->route('clients.create')->with('error', __('დამატება ვერ მოხერხდა'.$e->getMessage()));
         }
     }
@@ -119,13 +122,16 @@ class ClientController extends Controller
      */
     public function edit(int $id)
     {
-        $client = $this->clients->find($id);
-        $cities = $this->cities->all();
-        $positions = $this->positions->all();
-        return view('clients.edit')
-            ->with('positions',$positions)
-            ->with('cities',$cities)
-            ->with('client',$client);
+        if(auth()->user()->can('edit')) {
+            $client = $this->clients->find($id);
+            $cities = $this->cities->all();
+            $positions = $this->positions->all();
+            return view('clients.edit')
+                ->with('positions', $positions)
+                ->with('cities', $cities)
+                ->with('client', $client);
+        }
+        return redirect()->route('clients.index')->with('error',__('მომხარებელს არ გააჩნია საკმარისი უფლებები'));
     }
 
     /**
@@ -169,19 +175,22 @@ class ClientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy(User $user,int $id)
     {
-
-        try{
-            $this->clients->find($id)->delete();
+        if($user->can('destroy')){
+            try{
+                $this->clients->find($id)->delete();
 //            if($this->clients->find($id)->delete()){
 //                $this->clienthasfamily->where('client_id',$id)->delete();
 //            }
-            return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
-        }catch (\Exception $e){
+                return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
+            }catch (\Exception $e){
 
-            return redirect()->route('clients.index')->with('error',__('წაშლა ვერ მოხერხდა: '.$e->getMessage()));
+                return redirect()->route('clients.index')->with('error',__('წაშლა ვერ მოხერხდა: '.$e->getMessage()));
+            }
         }
+        return redirect()->route('clients.index')->with('error',__('მომხმარებელს არ ააქვს წაშლის უფლება'));
+
 
     }
 }

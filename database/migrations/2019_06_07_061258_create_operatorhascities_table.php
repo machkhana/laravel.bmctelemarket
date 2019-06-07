@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOperatorHasCitiesTable extends Migration
+class CreateOperatorhascitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOperatorHasCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('operator_has_cities', function (Blueprint $table) {
+        Schema::create('operatorhascities', function (Blueprint $table) {
             $table->bigInteger('user_id')->unsigned()->primary();
             $table->bigInteger('city_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -27,6 +27,6 @@ class CreateOperatorHasCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('operator_has_cities');
+        Schema::dropIfExists('operatorhascities');
     }
 }

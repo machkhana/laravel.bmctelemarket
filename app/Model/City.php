@@ -14,6 +14,6 @@ class City extends Model
         return $this->belongsTo(Client::class, 'id', 'city_id');
     }
     public function operators(){
-        return $this->belongsTo(OperatorHasCity::class,'id','city_id');
+        return $this->belongsTo(Operatorhascity::class,'id','city_id');
     }
 }

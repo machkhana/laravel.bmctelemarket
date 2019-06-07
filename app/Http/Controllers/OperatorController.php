@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Operator;
+use App\Model\OperatorHasCity;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,19 +18,19 @@ use Spatie\Permission\Models\Role;
 class OperatorController extends Controller
 {
     use HasRoles;
-    protected $guard_name = 'web';
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
 
-    protected $users,$cities,$role;
+    protected $users,$cities,$role,$operatorhascity;
     public function __construct()
     {
         $this->users = new User();
         $this->cities = new City();
         $this->role = new Role();
+        $this->operatorhascity = new OperatorHasCity();
     }
 
 
@@ -68,7 +69,7 @@ class OperatorController extends Controller
         try{
             $request['password'] = Hash::make($request->password);
             $operator = $this->users->create($request->toArray());
-            DB::table('operator_has_cities')
+            DB::table('operatorhascities')
                 ->insert(
                     array(
                         'user_id'=>$operator->id,
@@ -105,7 +106,11 @@ class OperatorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $operator=$this->users->find($id);
+        $operatorhascity=$this->operatorhascity;
+        return view('operators.edit')
+            ->with('operatorhascity',$operatorhascity)
+            ->with('operator',$operator);
     }
 
     /**

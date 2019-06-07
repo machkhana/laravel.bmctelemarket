@@ -78,6 +78,7 @@ class ClientController extends Controller
      */
     public function store(ClientRequest $request)
     {
+        DB::beginTransaction();
         try{
             //$searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
             $request['user_id'] = auth()->user()->id;
@@ -92,8 +93,10 @@ class ClientController extends Controller
                         )
                     );
             }
+            DB::commit();
             return redirect()->route('clients.index')->with('success', __('დაემატა წამრატებით'));
         }catch (\Exception $e){
+            DB::rollBack();
             return redirect()->route('clients.create')->with('error', __('დამატება ვერ მოხერხდა'.$e->getMessage()));
         }
     }

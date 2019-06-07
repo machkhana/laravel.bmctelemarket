@@ -29,7 +29,11 @@
                                     <td>{{$operator->email}}</td>
                                     <td>{{$operator->city}}</td>
                                     <td>
-                                        {!! $operator->getRoleNames() !!}
+                                        @if(!empty($operator->getRoleNames()))
+                                            @foreach($operator->getRoleNames() as $v)
+                                                {{ $v }}
+                                            @endforeach
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="row">

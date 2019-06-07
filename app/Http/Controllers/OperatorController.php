@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Model\Operator;
-use App\Model\OperatorHasCity;
+use App\Model\Operatorhascity;
 use App\User;
-use Illuminate\Http\Request;
 use Spatie\Permission\Traits\HasRoles;
 use App\Model\City;
-//use App\Model\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
-
 class OperatorController extends Controller
 {
     use HasRoles;
@@ -30,16 +27,14 @@ class OperatorController extends Controller
         $this->users = new User();
         $this->cities = new City();
         $this->role = new Role();
-        $this->operatorhascity = new OperatorHasCity();
+        $this->operatorhascity = new Operatorhascity();
     }
 
 
     public function index()
     {
         $operators=$this->users->paginate(15);
-        //$roles = $operators->getRoleNames();
         return view('operators.index')
-            //->with('roles',$roles)
             ->with('operators',$operators);
     }
 
@@ -104,13 +99,19 @@ class OperatorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user, $id)
     {
-        $operator=$this->users->find($id);
-        $operatorhascity=$this->operatorhascity;
-        return view('operators.edit')
-            ->with('operatorhascity',$operatorhascity)
-            ->with('operator',$operator);
+            $operator=$this->users->find($id);
+            $cities=$this->cities->all();
+            $roles=$this->role->all();
+            $operatorhascity=$this->operatorhascity;
+            return view('operators.edit')
+                ->with('roles',$roles)
+                ->with('cities',$cities)
+                ->with('permissions',Permission::all())
+                ->with('operatorhascity',$operatorhascity)
+                ->with('operator',$operator);
+
     }
 
     /**
@@ -122,7 +123,36 @@ class OperatorController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try{
+            if(!empty($request['password'])){
+                $request['password'] = Hash::make($request->password);
+            }
+            $operator = $this->users->find($id);
+            $operator->update($request->toArray());
+            if(!empty($request->city_id)){
+                DB::table('operatorhascities')
+                    ->where('user_id',$id)
+                    ->update(
+                        array(
+                            'city_id'=>$request->city_id
+                        )
+                    );
+            }
+            if(!empty($request->roles)) {
+                DB::table('model_has_roles')->where('model_id', $id)->delete();
+                $operator->assignRole($request->roles);
+            }
+            if(!empty($request->permissions)){
+                DB::table('model_has_permissions')->where('model_id', $id)->delete();
+                $operator->givePermissionTo($request->permissions);
+            }
+            DB::commit();
+            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->route('operators.edit',$id)->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+        }
     }
 
     /**

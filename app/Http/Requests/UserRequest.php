@@ -23,9 +23,20 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+
         switch ($this->method()) {
             case 'DELETE': {
                 return [];
+            }
+            case 'PUT':{
+                return[
+                    'name' => 'required',
+                    'email' => 'required|email',
+                    'password' => 'same:confirm-password',
+                    'city_id' => 'required|int|exists:cities,id',
+                    'roles' => '',
+                    'permissions' => ''
+                ];
             }
             default: {
                 return [

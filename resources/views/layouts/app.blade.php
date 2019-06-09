@@ -16,6 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap-chosen-master/bootstrap-chosen.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker-standalone.css') }}" />
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">--}}
@@ -80,7 +81,21 @@
     <script type="text/javascript" src="{{asset('js/locale/ka.js')}}"></script>
     <script src="{{asset('bootstrap-chosen-master/chosen.jquery.js')}}"></script>
     <script src="{{ asset('js/myscripts.js') }}"></script>
-
+    @if(\Request::is('operators/create'))
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(function () {
+                var availableTags = [
+                    @foreach(\App\Model\City::all() as $city)
+                        "{{$city->name}}",
+                    @endforeach
+                ];
+                $( "#tags" ).autocomplete({
+                    source: availableTags
+                });
+            })
+        </script>
+    @endif
 </body>
 </html>
 

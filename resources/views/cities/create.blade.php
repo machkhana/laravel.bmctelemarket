@@ -7,12 +7,12 @@
                     <div class="card-header">პოზიციის დამატება</div>
                     <div class="card-body">
                         @include('partials._messages')
-                        <form action="{{route('positions.store')}}" autocomplete="off" method="post">
+                        <form action="{{route('cities.store')}}" autocomplete="off" method="post">
                             {{ csrf_field() }}
                             <div class=" row form-group">
                                 <div class="col-sm-6">
                                     <label for="">დასახელება</label>
-                                    <input type="text" name="pos_name" class="form-control" value="{{old('pos_name')}}">
+                                    <input type="text" name="name" class="form-control" value="{{old('name')}}">
                                 </div>
                             </div>
                             <button type="reset" class="btn btn-warning">გასუფთავება</button>

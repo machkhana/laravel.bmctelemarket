@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
                     'name' => 'required',
                     'email' => 'required|email',
                     'password' => 'same:confirm-password',
-                    'city_id' => 'required|int|exists:cities,id',
+                    'city_id' => 'required|string',
                     'roles' => '',
                     'permissions' => ''
                 ];
@@ -43,7 +43,7 @@ class UserRequest extends FormRequest
                     'name' => 'required',
                     'email' => 'required|email|unique:users,email',
                     'password' => 'required|same:confirm-password',
-                    'city_id' => 'required|int|exists:cities,id',
+                    'city_id' => 'required|string',
                     'roles' => 'required'
                 ];
             }

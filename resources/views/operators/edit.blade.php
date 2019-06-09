@@ -74,8 +74,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button type="reset" class="btn btn-warning">გასუფთავება</button>
-                            <button type="submit" class="btn btn-primary">დამატება</button>
+                            <button type="submit" class="btn btn-primary">ჩასწორება</button>
                         </form>
                     </div>
                 </div>

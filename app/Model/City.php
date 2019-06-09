@@ -9,6 +9,7 @@ class City extends Model
 {
     protected $fillable=['name'];
     protected $table='cities';
+    public $timestamps = false;
 
     public function clients(){
         return $this->belongsTo(Client::class, 'id', 'city_id');

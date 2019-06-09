@@ -8,8 +8,6 @@ use App\Model\ClientHasFamily;
 use App\Model\Interes;
 use App\Model\Position;
 use App\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -25,6 +23,7 @@ class ClientController extends Controller
     protected $intereses;
     protected $positions;
     protected $clienthasfamily;
+    protected $getmymessages;
 
     public function __construct()
     {
@@ -41,13 +40,11 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        //return User::permission('create')->get();
-        Permission::create(['name'=>'print']);
-        $clients = $this->clients->paginate(15);
-        return view('clients.index')
-            ->with('clients',$clients);
+            $clients = $this->clients->paginate(15);
+            return view('clients.index')
+                ->with('clients',$clients);
     }
 
     /**
@@ -57,17 +54,17 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //Role::create(['name'=>'writer']);
-//        Permission::create(['name'=>'update']);
-//        Permission::create(['name'=>'destroy']);
-        //Auth()->user()->givePermissionTo('edit');
-        $cities = $this->cities->all();
-        $intereses = $this->intereses->all();
-        $positions = DB::table('positions')->get();
-        return view('clients.create')
-            ->with('intereses',$intereses)
-            ->with('positions',$positions)
-            ->with('cities',$cities);
+        if(auth()->user()->can('create')){
+            $cities = $this->cities->all();
+            $intereses = $this->intereses->all();
+            $positions = DB::table('positions')->get();
+            return view('clients.create')
+                ->with('intereses',$intereses)
+                ->with('positions',$positions)
+                ->with('cities',$cities);
+        }
+        return redirect()->route('clients.index')->with('error',__('მომხმარებელს არ ააქვს დამატების უფლება'));
+
     }
 
     /**
@@ -80,7 +77,6 @@ class ClientController extends Controller
     {
         DB::beginTransaction();
         try{
-            //$searchcity = $this->cities->firstOrCreate(['name'=>$request->cityname]);
             $request['user_id'] = auth()->user()->id;
             $clientid = $this->clients->create($request->toArray());
             if($request->family_status == 'yes'){
@@ -109,9 +105,12 @@ class ClientController extends Controller
      */
     public function show(int $id)
     {
-        $client = $this->clients->find($id);
-        return view('clients.show')
-            ->with('client',$client);
+        if(auth()->user()->can('create')) {
+            $client = $this->clients->find($id);
+            return view('clients.show')
+                ->with('client', $client);
+        }
+        return redirect()->route('clients.index')->with('error',__('მომხმარებელს არ ააქვს ნახვის უფლება'));
     }
 
     /**
@@ -131,7 +130,7 @@ class ClientController extends Controller
                 ->with('cities', $cities)
                 ->with('client', $client);
         }
-        return redirect()->route('clients.index')->with('error',__('მომხარებელს არ გააჩნია საკმარისი უფლებები'));
+        return redirect()->route('clients.index')->with('error',__('მომხარებელს არ ააქვს ჩასწორების უფლება'));
     }
 
     /**
@@ -143,30 +142,33 @@ class ClientController extends Controller
      */
     public function update(ClientRequest $request, int $id)
     {
-       $item = $this->clients->find($id);
-       $this->clients->setModel($item);
-        try{
-            $request['user_id'] = $item->user_id;
-            $this->clients->find($id)->update($request->toArray());
-            if($request->family_status == "no"){
-                $clienthasfamily = $this->clienthasfamily->where('client_id',$id);
-                $clienthasfamily->delete();
+        if(auth()->user()->can('edit')) {
+            $item = $this->clients->find($id);
+            $this->clients->setModel($item);
+            try {
+                $request['user_id'] = $item->user_id;
+                $this->clients->find($id)->update($request->toArray());
+                if ($request->family_status == "no") {
+                    $clienthasfamily = $this->clienthasfamily->where('client_id', $id);
+                    $clienthasfamily->delete();
+                }
+                if ($request->family_status == "yes") {
+                    DB::table('clienthasfamily')
+                        ->where('client_id', $id)
+                        ->update(
+                            array(
+                                'wife' => $request->wife,
+                                'childrens' => $request->childrens
+                            )
+                        );
+                }
+                return redirect()->route('clients.index')->with('success', __('დარედაქტირდა წარმატებით'));
+            } catch (\Exception $e) {
+                dd($e);
+                return redirect()->route('clients.edit', $id)->with('error', __('რედაქტირება ვერ მოხერხდა: ' . $e->getMessage()));
             }
-            if($request->family_status == "yes"){
-                DB::table('clienthasfamily')
-                    ->where('client_id',$id)
-                    ->update(
-                        array(
-                            'wife'=>$request->wife,
-                            'childrens'=>$request->childrens
-                        )
-                    );
-            }
-            return redirect()->route('clients.index')->with('success',__('დარედაქტირდა წარმატებით'));
-        }catch (\Exception $e){
-            dd($e);
-            return redirect()->route('clients.edit',$id)->with('error',__('რედაქტირება ვერ მოხერხდა: '.$e->getMessage()));
         }
+        return redirect()->route('clients.index')->with('error',__('მომხარებელს არ ააქვს ჩასწორების უფლება'));
     }
 
     /**
@@ -180,9 +182,6 @@ class ClientController extends Controller
         if($user->can('destroy')){
             try{
                 $this->clients->find($id)->delete();
-//            if($this->clients->find($id)->delete()){
-//                $this->clienthasfamily->where('client_id',$id)->delete();
-//            }
                 return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));
             }catch (\Exception $e){
 

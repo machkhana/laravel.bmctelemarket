@@ -63,6 +63,8 @@ class OperatorController extends Controller
         DB::beginTransaction();
         try{
             $request['password'] = Hash::make($request->password);
+            $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));
+            $request['city_id'] = $searchedcity->id;
             $operator = $this->users->create($request->toArray());
             DB::table('operatorhascities')
                 ->insert(

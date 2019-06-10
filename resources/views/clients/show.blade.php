@@ -7,7 +7,13 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-sm-5">კონტრაგენტი: {{$client->firstname.' '.$client->lastname}}</div>
-                            <div class="col-sm-5">ოპერატორი: {{$client->users->name}}</div>
+                            <div class="col-sm-5">ოპერატორი:
+                                @if(!empty($client->users->name))
+                                {{$client->users->name}}
+                                @else
+                                    {{__('ოპერატორი ვერ მოიძებნა')}}
+                                @endif
+                            </div>
                             <div class="col-sm-2">
                                 <a href="{{route('clients.edit',$client)}}"><button class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> </button></a>
                                 <a href="{{url('printclient',$client)}}" class="btn btn-sm btn-primary"><i class="fa fa-print"></i> </a>

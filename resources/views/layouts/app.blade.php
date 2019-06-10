@@ -16,6 +16,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mystyle.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap-chosen-master/bootstrap-chosen.css') }}" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datetimepicker-standalone.css') }}" />
@@ -80,8 +81,10 @@
     <script type="text/javascript" src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/locale/ka.js')}}"></script>
     <script src="{{asset('bootstrap-chosen-master/chosen.jquery.js')}}"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('js/myscripts.js') }}"></script>
-    @if(\Request::is('operators/create'))
+    @if(\Request::is('operators/create') or \Request::is('clients/*'))
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
             $(function () {

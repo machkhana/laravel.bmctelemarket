@@ -38,7 +38,6 @@
                                     <label for="tags">რეგიონი</label>
                                     <input id="tags" type="text" name="city_id" class="form-control">
                                 </div>
-
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-4">

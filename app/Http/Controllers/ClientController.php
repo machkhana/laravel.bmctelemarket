@@ -42,7 +42,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-            $clients = $this->clients->paginate(15);
+            $clients = $this->clients->all();
             return view('clients.index')
                 ->with('clients',$clients);
     }
@@ -78,6 +78,8 @@ class ClientController extends Controller
         DB::beginTransaction();
         try{
             $request['user_id'] = auth()->user()->id;
+            $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));
+            $request['city_id'] = $searchedcity->id;
             $clientid = $this->clients->create($request->toArray());
             if($request->family_status == 'yes'){
                 DB::table('clienthasfamily')
@@ -147,6 +149,8 @@ class ClientController extends Controller
             $this->clients->setModel($item);
             try {
                 $request['user_id'] = $item->user_id;
+                $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));
+                $request['city_id'] = $searchedcity->id;
                 $this->clients->find($id)->update($request->toArray());
                 if ($request->family_status == "no") {
                     $clienthasfamily = $this->clienthasfamily->where('client_id', $id);
@@ -179,7 +183,7 @@ class ClientController extends Controller
      */
     public function destroy(User $user,int $id)
     {
-        if($user->can('destroy')){
+        if(auth()->user()->can('destroy')){
             try{
                 $this->clients->find($id)->delete();
                 return redirect()->route('clients.index')->with('success',__('წაიშალა წარმატებით'));

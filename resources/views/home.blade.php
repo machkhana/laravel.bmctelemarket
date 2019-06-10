@@ -7,13 +7,27 @@
             <div class="card">
                 <div class="card-header">მთავარი გვერდი</div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <p><h4>სულ დარეგისტრირებული კონტრაგენტები</h4></p>
+                            <p class="text-center btn btn-success">{{$clients}}</p>
                         </div>
-                    @endif
-                    {{$welcome}}
-                    You are logged in!
+                        <div class="col-md-6 text-center">
+                            <p><h4>კონტრაგენტების დაბ. დღეები</h4></p>
+                            <p class="text-center btn btn-success">0</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <p><h4>აქტიური კონტრაგენტი</h4></p>
+                            <p class="text-center btn btn-success">0</p>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <p><h4>პასიური კონტრაგენტი</h4></p>
+                            <p class="text-center btn btn-success">0</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

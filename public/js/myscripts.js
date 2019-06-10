@@ -29,4 +29,8 @@ $(function () {
     {
         $('.family-show').css('display','');
     };
+    /////////////////////////////////
+    $('#example').DataTable();
+    //////////////////////////////////
+    $('[data-toggle="tooltip"]').tooltip()
 });

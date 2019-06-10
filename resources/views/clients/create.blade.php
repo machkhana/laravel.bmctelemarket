@@ -41,13 +41,8 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-4">
-                                    <label for="">ქალაქი</label>
-                                    <select name="city_id" class="form-control">
-                                        <option value="0">.....</option>
-                                        @foreach($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="tags">ქალაქი</label>
+                                    <input id="tags" type="text" name="city_id" class="form-control">
                                 </div>
                                 <div class="col-sm-8">
                                     <label for="exampleInputPassword1">მისამართი</label>

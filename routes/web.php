@@ -33,6 +33,7 @@ Route::get('/', function () {
 });
 Route::get('/printclient/{id}','PDFController@getPdf');
 
+
 Auth::routes();
 Route::group(['middleware' => ['auth']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
@@ -40,6 +41,8 @@ Route::group(['middleware' => ['auth']],function(){
         Route::resource('/roles', 'RoleController');
         Route::resource('/operators', 'OperatorController');
         Route::resource('/positions', 'PositionController');
-        Route::resource('cities','CityController');
+        Route::resource('/cities','CityController');
+        Route::get('/contract/{id}','PrintController@contract');
+        Route::get('/appendix/{id}','PrintController@appendix');
 });
 

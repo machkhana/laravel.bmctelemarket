@@ -36,12 +36,8 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-sm-4">
-                                    <label for="">რეგიონი</label>
-                                    <select name="city_id" class="form-control">
-                                        @foreach($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <label for="tags">რეგიონი</label>
+                                    <input id="tags" type="text" name="city_id" class="form-control" value="{{$operatorhascity->cities->name}}">
                                 </div>
                             </div>
                             <div class="row form-group">

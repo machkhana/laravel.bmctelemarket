@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\OperatorHasCity;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
@@ -16,5 +17,8 @@ class City extends Model
     }
     public function operators(){
         return $this->belongsTo(Operatorhascity::class,'id','city_id');
+    }
+    public function users(){
+        return $this->belongsTo(User::class,'id','city_id');
     }
 }

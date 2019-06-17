@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model\City;
 use App\Model\Client;
+use App\Model\Operatorhascity;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -39,7 +40,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    public function operatorhascity(){
+        return $this->belongsTo(Operatorhascity::class, 'id', 'user_id');
+    }
     public function clients(){
         return $this->hasMany(Client::class,'id','user_id');
     }

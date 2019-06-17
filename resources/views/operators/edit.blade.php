@@ -37,7 +37,7 @@
                             <div class="row form-group">
                                 <div class="col-sm-4">
                                     <label for="tags">რეგიონი</label>
-                                    <input id="tags" type="text" name="city_id" class="form-control" value="{{$operatorhascity->cities->name}}">
+                                    <input id="tags" type="text" name="city_id" class="form-control" value="{{  $operator->operatorhascity }}">
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -55,21 +55,21 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row form-group">
-                                <div class="col-sm-4">
-                                    <label for="exampleInputPassword1">დაშვება</label>
-                                    <select name="permissions[]" class="form-control" multiple>
+                            {{--<div class="row form-group">--}}
+                                {{--<div class="col-sm-4">--}}
+                                    {{--<label for="exampleInputPassword1">დაშვება</label>--}}
+                                    {{--<select name="permissions[]" class="form-control" multiple>--}}
                                         {{--@if(!empty($operator->getRoleNames()))--}}
                                             {{--@foreach($operator->getRoleNames() as $v)--}}
                                                 {{--<option value="{{$v}}" selected>{{$v}}</option>--}}
                                             {{--@endforeach--}}
                                         {{--@endif--}}
-                                        @foreach($permissions as $p)
-                                            <option value="{{$p->name}}">{{$p->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
+                                        {{--@foreach($permissions as $p)--}}
+                                            {{--<option value="{{$p->name}}">{{$p->name}}</option>--}}
+                                        {{--@endforeach--}}
+                                    {{--</select>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
                             <button type="submit" class="btn btn-primary">ჩასწორება</button>
                         </form>
                     </div>

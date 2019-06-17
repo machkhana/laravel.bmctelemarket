@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
                     'name' => 'required',
                     'email' => 'required|email',
                     'password' => 'same:confirm-password',
-                    'city_id' => 'required|string',
+                    'city_id' => 'required',
                     'roles' => '',
                     'permissions' => ''
                 ];

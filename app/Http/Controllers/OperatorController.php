@@ -33,7 +33,7 @@ class OperatorController extends Controller
 
     public function index()
     {
-        $operators=$this->users->paginate(15);
+        $operators=$this->users->all();
         return view('operators.index')
             ->with('operators',$operators);
     }
@@ -74,6 +74,13 @@ class OperatorController extends Controller
                     )
                 );
             $operator->assignRole($request->roles);
+//            $role = Role::findByName($request->roles);
+//            $permissions = Permission::findById($role);
+//            $operator->assignRole($request->roles);
+//            $operator->givePermissionTo($permissions);
+//            $this->users->hasPermissionTo('1');
+//            $this->users->hasPermissionTo(Permission::find($hasrole)->id);
+//            $this->users->hasPermissionTo($somePermission->id);
             DB::commit();
             return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){
@@ -106,17 +113,12 @@ class OperatorController extends Controller
             $operator=$this->users->find($id);
             $cities=$this->cities->all();
             $roles=$this->role->all();
-            $operatorhascity = $this->operatorhascity->find($id);
-            dd($operatorhascity);
             return view('operators.edit')
                 ->with('roles',$roles)
                 ->with('cities',$cities)
                 ->with('permissions',Permission::all())
-                ->with('operatorhascity',$operatorhascity)
                 ->with('operator',$operator);
-
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -128,28 +130,32 @@ class OperatorController extends Controller
     {
         DB::beginTransaction();
         try{
+            $operator = $this->users->find($id);//get all data
+            $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));//get data from cities
+            $request['city_id'] = $searchedcity->id;
             if(!empty($request['password'])){
                 $request['password'] = Hash::make($request->password);
+            }else{
+                $request['password']=$operator->password;
             }
-            $operator = $this->users->find($id);
-            $operator->update($request->toArray());
-            if(!empty($request->city_id)){
-                DB::table('operatorhascities')
-                    ->where('user_id',$id)
-                    ->update(
-                        array(
-                            'city_id'=>$request->city_id
-                        )
-                    );
-            }
-            if(!empty($request->roles)) {
-                DB::table('model_has_roles')->where('model_id', $id)->delete();
+            $operator->update($request->toArray());//update data on DB
+            DB::table('operatorhascities')
+                ->where('user_id',$id)
+                ->update(
+                    array(
+                        'city_id'=>$request->city_id
+                    )
+                );
+            if(!empty($request->roles)) {//update user role
+                DB::table('model_has_roles')
+                    ->where('model_id', $id)
+                    ->delete();
                 $operator->assignRole($request->roles);
             }
-            if(!empty($request->permissions)){
-                DB::table('model_has_permissions')->where('model_id', $id)->delete();
-                $operator->givePermissionTo($request->permissions);
-            }
+//            if(!empty($request->permissions)){
+//                DB::table('model_has_permissions')->where('model_id', $id)->delete();
+//                $operator->givePermissionTo($request->permissions);
+//            }
             DB::commit();
             return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){

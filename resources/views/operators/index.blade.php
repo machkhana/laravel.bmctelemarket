@@ -27,7 +27,7 @@
                                     <th scope="row">{{$operator->id}}</th>
                                     <td>{{$operator->name}}</td>
                                     <td>{{$operator->email}}</td>
-                                    <td>{{$operator->city}}</td>
+                                    <td>{{$operator->operatorhascity}}</td>
                                     <td>
                                         @if(!empty($operator->getRoleNames()))
                                             @foreach($operator->getRoleNames() as $v)

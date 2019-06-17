@@ -113,6 +113,7 @@ class OperatorController extends Controller
             $operator=$this->users->find($id);
             $cities=$this->cities->all();
             $roles=$this->role->all();
+            dd($this->operatorhascity->where('user_id',$id)->city->name);
             return view('operators.edit')
                 ->with('roles',$roles)
                 ->with('cities',$cities)

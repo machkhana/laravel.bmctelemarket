@@ -38,7 +38,7 @@ Auth::routes();
 Route::group(['middleware' => ['auth']],function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::group(['middleware'=>['role:admin']],function (){
-        Route::resource('/operators', 'OperatorController');
+        Route::resource('/users', 'UserController');
         Route::resource('/positions', 'PositionController');
         Route::resource('/cities','CityController');
     });

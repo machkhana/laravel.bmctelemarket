@@ -84,7 +84,7 @@
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('js/myscripts.js') }}"></script>
-    @if(\Request::is('operators/*') or \Request::is('clients/*'))
+    @if(\Request::is('users/*') or \Request::is('clients/*'))
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         <script>
             $(function () {

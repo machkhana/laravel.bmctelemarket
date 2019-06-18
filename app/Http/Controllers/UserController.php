@@ -2,17 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Operator;
-use App\Model\Operatorhascity;
-use App\User;
-use Spatie\Permission\Traits\HasRoles;
-use App\Model\City;
-use Spatie\Permission\Models\Permission;
-use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-class OperatorController extends Controller
+use Illuminate\Http\Request;
+
+class UserController extends Controller
 {
     use HasRoles;
     /**
@@ -33,9 +25,9 @@ class OperatorController extends Controller
 
     public function index()
     {
-        $operators=$this->users->all();
-        return view('operators.index')
-            ->with('operators',$operators);
+        $users=$this->users->all();
+        return view('users.index')
+            ->with('users',$users);
     }
 
     /**
@@ -47,7 +39,7 @@ class OperatorController extends Controller
     {
         $cities=$this->cities->all();
         $roles=$this->role->all();
-        return view('operators.create')
+        return view('users.create')
             ->with('roles',$roles)
             ->with('cities',$cities);
     }
@@ -66,13 +58,13 @@ class OperatorController extends Controller
             $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));
             $request['city_id'] = $searchedcity->id;
             $operator = $this->users->create($request->toArray());
-            DB::table('operatorhascities')
-                ->insert(
-                    array(
-                        'user_id'=>$operator->id,
-                        'city_id'=>$request->city_id
-                    )
-                );
+//            DB::table('operatorhascities')
+//                ->insert(
+//                    array(
+//                        'user_id'=>$operator->id,
+//                        'city_id'=>$request->city_id
+//                    )
+//                );
             $operator->assignRole($request->roles);
 //            $role = Role::findByName($request->roles);
 //            $permissions = Permission::findById($role);
@@ -82,10 +74,10 @@ class OperatorController extends Controller
 //            $this->users->hasPermissionTo(Permission::find($hasrole)->id);
 //            $this->users->hasPermissionTo($somePermission->id);
             DB::commit();
-            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
+            return redirect()->route('users.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){
             DB::rollBack();
-            return redirect()->route('operators.create')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+            return redirect()->route('users.create')->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
 
         }
     }
@@ -110,15 +102,15 @@ class OperatorController extends Controller
      */
     public function edit(User $user, $id)
     {
-            $operator=$this->users->find($id);
-            $cities=$this->cities->all();
-            $roles=$this->role->all();
-            dd($this->operatorhascity->where('user_id',$id)->city->name);
-            return view('operators.edit')
-                ->with('roles',$roles)
-                ->with('cities',$cities)
-                ->with('permissions',Permission::all())
-                ->with('operator',$operator);
+        $user=$this->users->find($id);
+        $cities=$this->cities->all();
+        $roles=$this->role->all();
+        //dd($this->operatorhascity->where('user_id',$id)->city->name);
+        return view('users.edit')
+            ->with('roles',$roles)
+            ->with('cities',$cities)
+            ->with('permissions',Permission::all())
+            ->with('user',$user);
     }
     /**
      * Update the specified resource in storage.
@@ -131,7 +123,7 @@ class OperatorController extends Controller
     {
         DB::beginTransaction();
         try{
-            $operator = $this->users->find($id);//get all data
+            $user = $this->users->find($id);//get all data
             $searchedcity = $this->cities->firstOrCreate(array('name'=>$request['city_id']));//get data from cities
             $request['city_id'] = $searchedcity->id;
             if(!empty($request['password'])){
@@ -139,29 +131,29 @@ class OperatorController extends Controller
             }else{
                 $request['password']=$operator->password;
             }
-            $operator->update($request->toArray());//update data on DB
-            DB::table('operatorhascities')
-                ->where('user_id',$id)
-                ->update(
-                    array(
-                        'city_id'=>$request->city_id
-                    )
-                );
+            $user->update($request->toArray());//update data on DB
+//            DB::table('operatorhascities')
+//                ->where('user_id',$id)
+//                ->update(
+//                    array(
+//                        'city_id'=>$request->city_id
+//                    )
+//                );
             if(!empty($request->roles)) {//update user role
                 DB::table('model_has_roles')
                     ->where('model_id', $id)
                     ->delete();
-                $operator->assignRole($request->roles);
+                $user->assignRole($request->roles);
             }
 //            if(!empty($request->permissions)){
 //                DB::table('model_has_permissions')->where('model_id', $id)->delete();
 //                $operator->givePermissionTo($request->permissions);
 //            }
             DB::commit();
-            return redirect()->route('operators.index')->with('success',__('დაემატა წარმატებით'));
+            return redirect()->route('users.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){
             DB::rollBack();
-            return redirect()->route('operators.edit',$id)->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
+            return redirect()->route('users.edit',$id)->with('error',__('დამატება ვერ მოხერხდა: '.$e->getMessage()));
         }
     }
 
@@ -175,9 +167,9 @@ class OperatorController extends Controller
     {
         try{
             $this->users->find($id)->delete();
-            return redirect()->route('operators.index')->with('success',__('წაიშალა წარმატებით'));
+            return redirect()->route('users.index')->with('success',__('წაიშალა წარმატებით'));
         }catch (\Exception $e){
-            return redirect()->route('operators.index')->with('success',__('წაშლა ვერ მოხერხდა'.$e->getMessage()));
+            return redirect()->route('users.index')->with('success',__('წაშლა ვერ მოხერხდა'.$e->getMessage()));
         }
 
     }

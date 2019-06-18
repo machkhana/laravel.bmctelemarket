@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','city',
+        'name', 'email', 'password','city_id',
     ];
 
     /**
@@ -40,13 +40,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function operatorhascity(){
-        return $this->belongsTo(Operatorhascity::class, 'id', 'user_id');
-    }
     public function clients(){
         return $this->hasMany(Client::class,'id','user_id');
     }
     public function cities(){
-        return $this->belongsTo(City::class, 'id','user_id');
+        return $this->belongsTo(City::class, 'city_id','id');
     }
 }

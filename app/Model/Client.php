@@ -31,23 +31,18 @@ class Client extends Model
     public function users(){
         return $this->belongsTo(User::class, 'user_id','id');
     }
-
     public function city(){
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
-
     public function position(){
         return $this->belongsTo(Position::class,'position_id','id');
     }
-
     public function clienthasfamily(){
         return $this->belongsTo(ClientHasFamily::class, 'id', 'client_id');
     }
-
     public function hasintereses(){
         return DB::table('hasintereses')->select('interes_id')->where('client_id',$this->id);
     }
-
     public function selectedintereses(){
         return DB::table('intereses')->where('id',$this->hasintereses());
     }

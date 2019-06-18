@@ -24,10 +24,10 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <th scope="row">{{$operator->id}}</th>
+                                    <th scope="row">{{$user->id}}</th>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
-                                    <td>{{$user->operatorhascity}}</td>
+                                    <td>{{$user->cities->name}}</td>
                                     <td>
                                         @if(!empty($user->getRoleNames()))
                                             @foreach($user->getRoleNames() as $v)

@@ -107,7 +107,7 @@ class ClientController extends Controller
      */
     public function show(int $id)
     {
-        if(auth()->user()->can('create')) {
+        if(auth()->user()->can('show')) {
             $client = $this->clients->find($id);
             return view('clients.show')
                 ->with('client', $client);

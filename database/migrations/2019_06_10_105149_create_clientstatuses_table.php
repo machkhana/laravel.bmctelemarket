@@ -14,9 +14,9 @@ class CreateClientstatusesTable extends Migration
     public function up()
     {
         Schema::create('clientstatuses', function (Blueprint $table) {
-            $table->bigInteger('client_id')->unsigned();
+            $table->bigInteger('client_id')->unsigned()->primary();
             $table->string('statusname',50);
-            $table->foreign('cliend_id')->references('id')->on('clients')->onDelete('cascade');
+            //$table->foreign('cliend_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 

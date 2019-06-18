@@ -37,7 +37,7 @@
                             <div class="row form-group">
                                 <div class="col-sm-4">
                                     <label for="tags">რეგიონი</label>
-                                    <input id="tags" type="text" name="city_id" class="form-control" value="{{  $user->city_id }}">
+                                    <input id="tags" type="text" name="city_id" class="form-control" value="{{ $user->cities->name }}">
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -45,7 +45,7 @@
                                     <label for="exampleInputPassword1">როლი: </label>
                                     @if(!empty($user->getRoleNames()))
                                         @foreach($user->getRoleNames() as $v)
-                                            <label>{{$v}}</label>
+                                            <label class="bg-success p-1">{{$v}}</label>
                                         @endforeach
                                     @endif
                                     <select name="roles[]" class="form-control" multiple>

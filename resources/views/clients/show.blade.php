@@ -14,9 +14,10 @@
                                     {{__('ოპერატორი ვერ მოიძებნა')}}
                                 @endif
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2 float-right">
                                 <a href="{{route('clients.edit',$client)}}"><button class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i> </button></a>
-                                <a href="{{url('printclient',$client)}}" class="btn btn-sm btn-primary"><i class="fa fa-print"></i> </a>
+                                <a href="{{url('contract',$client)}}" onClick="window.open(this.href,'myWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=900,height=400'); return false;" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="ხელშეკრულება"><i class="fa fa-print" aria-hidden="true"></i></a>
+                                <a href="{{url('appendix',$client)}}" onClick="window.open(this.href,'myWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=900,height=400'); return false;" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="დანართი"><i class="fa fa-print" aria-hidden="true"></i></a>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Spatie\Permission\Traits\HasRoles;
+use App\Model\City;
+use App\User;
+Use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,13 +20,12 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    protected $users,$cities,$role,$operatorhascity;
+    protected $users,$cities,$role;
     public function __construct()
     {
         $this->users = new User();
         $this->cities = new City();
         $this->role = new Role();
-        $this->operatorhascity = new Operatorhascity();
     }
 
 
@@ -100,7 +106,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user, $id)
+    public function edit(int $id)
     {
         $user=$this->users->find($id);
         $cities=$this->cities->all();
@@ -129,26 +135,15 @@ class UserController extends Controller
             if(!empty($request['password'])){
                 $request['password'] = Hash::make($request->password);
             }else{
-                $request['password']=$operator->password;
+                $request['password']=$user->password;
             }
             $user->update($request->toArray());//update data on DB
-//            DB::table('operatorhascities')
-//                ->where('user_id',$id)
-//                ->update(
-//                    array(
-//                        'city_id'=>$request->city_id
-//                    )
-//                );
             if(!empty($request->roles)) {//update user role
                 DB::table('model_has_roles')
                     ->where('model_id', $id)
                     ->delete();
                 $user->assignRole($request->roles);
             }
-//            if(!empty($request->permissions)){
-//                DB::table('model_has_permissions')->where('model_id', $id)->delete();
-//                $operator->givePermissionTo($request->permissions);
-//            }
             DB::commit();
             return redirect()->route('users.index')->with('success',__('დაემატა წარმატებით'));
         }catch (\Exception $e){

@@ -33,4 +33,10 @@ $(function () {
     $('#example').DataTable();
     //////////////////////////////////
     $('[data-toggle="tooltip"]').tooltip()
+    // add call on client when modal is open add value //
+    $('#mymodal-call-add').on("show.bs.modal", function (event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('id');
+        $(this).find('input[name=client_id]').val(recipient);
+    });
 });

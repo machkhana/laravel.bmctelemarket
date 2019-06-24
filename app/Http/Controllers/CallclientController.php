@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CallRequest;
 use App\Model\Callclient;
+use App\Model\Client;
 use Illuminate\Http\Request;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\DB;
 
 class CallclientController extends Controller
 {
+    use HasRoles;
+    protected $clients, $calls;
+    public function __construct()
+    {
+        $this->clients = new Client();
+        $this->calls = new Callclient();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -33,9 +45,22 @@ class CallclientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CallRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try{
+            $data = [
+                'client_id'=>$request->client_id,
+                'calldate'=>$request->calldate,
+                'text'=>$request->text
+            ];
+            $this->calls->create($data);
+            DB::commit();
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->route();
+        }
+
     }
 
     /**

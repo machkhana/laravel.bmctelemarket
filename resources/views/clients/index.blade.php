@@ -52,6 +52,7 @@
                                             <a href="{{url('contract',$client)}}" onClick="window.open(this.href,'myWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=900,height=400'); return false;" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="ხელშეკრულება"><i class="fa fa-print" aria-hidden="true"></i></a>
                                             <a href="{{url('appendix',$client)}}" onClick="window.open(this.href,'myWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=no,width=900,height=400'); return false;" class="btn btn-sm btn-secondary" data-toggle="tooltip" data-placement="top" title="დანართი"><i class="fa fa-print" aria-hidden="true"></i></a>
                                             <a href="{{route('clients.show',$client)}}" class="btn btn-sm btn-primary"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <button class="btn btn-info btn-sm addcall" data-toggle="modal" data-target="#mymodal-call-add" data-id="{{$client->id}}"><i class="fa fa-phone-square"></i> </button>
                                             <a href="{{route('clients.edit',$client)}}" class="btn btn-warning btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i></a>
                                             <form method="post" action="{{route('clients.destroy',$client)}}">
                                                 {{csrf_field()}}
@@ -69,5 +70,35 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="mymodal-call-add" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">დასარეკი ზარი</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('clients.')}}" method="post">
+                        @csrf
+                        <input type="hidden" name="client_id">
+                        <div class="form-group">
+                            <input type='text' id="datetimepicker1" name="calldate" class="form-control" value="{{old('calldate')}}" placeholder="აირჩიეთ დარეკვის თარიღი" required/>
+                        </div>
+                        <div class="form-grup">
+                            <textarea name="text" class="form-control" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-secondary">გასუფთავება</button>
+                    <button type="submit" class="btn btn-primary">დამატება</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 

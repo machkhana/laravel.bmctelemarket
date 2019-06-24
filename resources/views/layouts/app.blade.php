@@ -96,8 +96,10 @@
                 $( "#tags" ).autocomplete({
                     source: availableTags
                 });
-            })
+
+            });
         </script>
+
     @endif
 </body>
 </html>

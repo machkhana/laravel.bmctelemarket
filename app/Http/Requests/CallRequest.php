@@ -13,7 +13,7 @@ class CallRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,17 @@ class CallRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        switch ($this->method()) {
+            case 'DELETE': {
+                return [];
+            }
+            default: {
+                return [
+                    'client_id' => 'required',
+                    'calldate' => 'required',
+                    'text' => 'required'
+                ];
+            }
+        }
     }
 }

@@ -85,8 +85,7 @@
                             <div class="row form-group">
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">ხელოსნის ბარათი</label>
-                                    <textarea name="card_id" class="form-control"></textarea>
-
+                                    <input name="card_id" class="form-control" onkeypress="onFirstnameKeypress(event)">
                                 </div>
                                 <div class="col-sm-6">
                                     <label for="exampleInputPassword1">პოზიცია</label>

@@ -40,3 +40,9 @@ $(function () {
         $(this).find('input[name=client_id]').val(recipient);
     });
 });
+
+function onFirstnameKeypress(e) {
+    if(e.keyCode === 13) {
+        e.preventDefault();
+    }
+}

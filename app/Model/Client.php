@@ -46,4 +46,7 @@ class Client extends Model
     public function selectedintereses(){
         return DB::table('intereses')->where('id',$this->hasintereses());
     }
+    public function callclient(){
+        return $this->belongsTo(Callclient::class, 'id', 'client_id');
+    }
 }

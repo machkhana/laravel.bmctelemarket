@@ -6,8 +6,7 @@
             <a class="dropdown-item" href="{{ route('clients.index') }}">{{ __('სია') }}</a>
         </div>
     </li>
-    <li class="nav-item"><a class="dropdown-item nav-link" href="{{ route('clients.index') }}">{{ __('დასარეკი ზარები') }}</a></li>
-    <li class="nav-item"><a class="dropdown-item nav-link" href="{{ route('clients.index') }}">{{ __('დასარეკათ ჩან. ზარები') }}</a></li>
+    <li class="nav-item"><a class="dropdown-item nav-link" href="{{ route('calls.index') }}">{{ __('დასარეკი ზარები') }}</a></li>
     <li class="nav-item"><a class="dropdown-item nav-link" href="{{ route('clients.index') }}">{{ __('კონტრ. დაბადების დღეები') }}</a></li>
     @role('admin')
     <li class="nav-item dropdown">

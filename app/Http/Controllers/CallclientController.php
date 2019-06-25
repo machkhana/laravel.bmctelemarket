@@ -56,9 +56,10 @@ class CallclientController extends Controller
             ];
             $this->calls->create($data);
             DB::commit();
+            return redirect()->route('clients.index');
         }catch (\Exception $e){
             DB::rollBack();
-            return redirect()->route();
+            return redirect()->route('clients.index')->with('error',__('დამატება ვერ მოხერხდა '.$e->getMessage()));
         }
 
     }

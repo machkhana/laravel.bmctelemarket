@@ -45,7 +45,7 @@ Route::group(['middleware' => ['auth']],function(){
         Route::resource('/clients', 'ClientController');
         Route::resource('/roles', 'RoleController');
         Route::resource('/calls','CallclientController');
-    Route::group(['middleware'=>['role:admin','role:user']],function (){
+    Route::group(['middleware'=>['role:admin|user']],function (){
         Route::get('/contract/{id}','PrintController@contract');
         Route::get('/appendix/{id}','PrintController@appendix');
     });

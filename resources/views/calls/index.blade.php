@@ -6,9 +6,9 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-md-8">კონტრაგენტების ჩამონათვალი</div>
+                            <div class="col-md-8">დასარეკათ ჩანიშნული ზარები</div>
                             <div class="col-md-4 text-right">
-                                <a href="{{route('clients.create')}}" class="btn btn-sm btn-success ml-2">{{__('დამატება')}}</a>
+                                <a href="{{route('calls.create')}}" class="btn btn-sm btn-success ml-2">{{__('დამატება')}}</a>
                                 <a href="" class="btn btn-primary ml-2 float-right" data-toggle="tooltip" data-placement="top" title="export XLSX"><i class="fa fa-file-excel-o"></i> </a>
                             </div>
                         </div>
@@ -31,19 +31,17 @@
                                 <th scope="col">სახელი</th>
                                 <th scope="col">გვარი</th>
                                 <th scope="col">ტელეფონი</th>
-                                <th scope="col">პოზიცია</th>
-                                <th scope="col">ბარათი</th>
-                                <th scope="col">რეგ. თარიღი</th>
+                                <th scope="col">დარეკვა</th>
                                 <th scope="col"><i class="fa fa-cogs" aria-hidden="true"></i></th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($clients as $client)
+                            @foreach($calls as $call)
                                 <tr>
-                                    <th scope="row">{{$client->id}}</th>
-                                    <td>{{$client->firstname}}</td>
-                                    <td>{{$client->lastname}}</td>
-                                    <td>{{$client->mobile}}</td>
+                                    <th scope="row">{{$call->id}}</th>
+                                    <td>{{$call->clients->firstname}}</td>
+                                    <td>{{$call->clients->lastname}}</td>
+                                    <td>{{$call->clients->mobile}}</td>
                                     <td>@if(!empty($client->position->pos_name)){{$client->position->pos_name }}@endif</td>
                                     <td>{{$client->card_id}}</td>
                                     <td>{{substr($client->created_at,0,10)}}</td>
